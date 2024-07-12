@@ -3,11 +3,16 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 const dotenv = require("dotenv");
 const isLoggedIn = require("./src/middleware/isLoggedIn");
 const connectDB = require("./db/connectDB");
+const notFound = require("./src/middleware/notFound");
+const errorHandler = require("./src/middleware/errorHandler");
+const logger = require("morgan");
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(logger("dev"));
 
 // Configuración de los proxies para cada microservicio usando variables de entorno
 const serviceProxyConfig = {
@@ -52,6 +57,9 @@ Object.keys(serviceProxyConfig).forEach((context) => {
     })
   );
 });
+
+app.use("*", notFound);
+app.use(errorHandler);
 
 // Iniciar el servidor
 app.listen(PORT, async () => {
