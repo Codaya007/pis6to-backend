@@ -1,0 +1,34 @@
+const ACTIVE_USER_STATUS = "Activo";
+const BLOQUED_USER_STATUS = "Bloqueado";
+
+const RESEARCHER_ROLE_NAME = "Investigador";
+const ADMIN_ROLE_NAME = "Administrador";
+
+const TEMP_SENSOR_NAME = "Temperatura";
+const HUM_SENSOR_NAME = "Humedad";
+const CO2_SENSOR_NAME = "CO2";
+const ALLOWED_SENSORS = [TEMP_SENSOR_NAME, HUM_SENSOR_NAME, CO2_SENSOR_NAME];
+
+const SENSOR_TYPES_DICTIONARY = {
+  [TEMP_SENSOR_NAME]: { unit: "°C" },
+  [HUM_SENSOR_NAME]: { unit: "%" },
+  [CO2_SENSOR_NAME]: { unit: "ppm" },
+};
+
+const ACTIVE_STATUS_NAME = "Activo";
+const INACTIVE_STATUS_NAME = "Inactivo";
+
+module.exports = {
+  ACTIVE_USER_STATUS,
+  BLOQUED_USER_STATUS,
+  RESEARCHER_ROLE_NAME,
+  ADMIN_ROLE_NAME,
+  TEMP_SENSOR_NAME,
+  HUM_SENSOR_NAME,
+  CO2_SENSOR_NAME,
+  ALLOWED_SENSORS,
+  SENSOR_TYPES_DICTIONARY,
+
+  ACTIVE_STATUS_NAME,
+  INACTIVE_STATUS_NAME,
+};
