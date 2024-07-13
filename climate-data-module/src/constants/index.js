@@ -1,0 +1,19 @@
+const ACTIVE_USER_STATUS = "Activo";
+const BLOQUED_USER_STATUS = "Bloqueado";
+
+const RESEARCHER_ROLE_NAME = "Investigador";
+const ADMIN_ROLE_NAME = "Administrador";
+
+const ACTIVE_STATUS_NAME = "Activo";
+const INACTIVE_STATUS_NAME = "Inactivo";
+
+module.exports = {
+  ACTIVE_USER_STATUS,
+  BLOQUED_USER_STATUS,
+
+  RESEARCHER_ROLE_NAME,
+  ADMIN_ROLE_NAME,
+
+  ACTIVE_STATUS_NAME,
+  INACTIVE_STATUS_NAME,
+};
