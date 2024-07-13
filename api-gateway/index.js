@@ -16,21 +16,18 @@ app.use(logger("dev"));
 
 // Configuración de los proxies para cada microservicio usando variables de entorno
 const serviceProxyConfig = {
-  "/authentication": process.env.AUTHENTICATION_SERVICE_URL,
-  "/users": process.env.USERS_SERVICE_URL,
-  "/climate-data": process.env.CLIMATE_DATA_SERVICE_URL,
-  "/monitoring-stations": process.env.MONITORING_STATIONS_SERVICE_URL,
-  "/alerts-notifications": process.env.ALERTS_NOTIFICATIONS_SERVICE_URL,
-  "/download-requests": process.env.DOWNLOAD_REQUESTS_SERVICE_URL,
-  "/sensors": process.env.SENSORS_SERVICE_URL,
-  "/nodes": process.env.NODES_SERVICE_URL,
-  "/configurations": process.env.CONFIGURATIONS_SERVICE_URL,
-  "/system-activities": process.env.SYSTEM_ACTIVITIES_SERVICE_URL,
-  "/sockets": process.env.SOCKETS_SERVICE_URL,
+  "/ms1": process.env.AUTHENTICATION_AND_USERS_SERVICE_URL,
+  "/ms2": process.env.MONITORING_STATIONS_SERVICE_URL,
+  "/ms3": process.env.CLIMATE_DATA_SERVICE_URL,
+  "/ms4": process.env.ALERTS_AND_NOTIFICATIONS_SERVICE_URL,
+  "/ms5": process.env.DOWNLOAD_REQUESTS_SERVICE_URL,
+  "/ms6": process.env.SYSTEM_ACTIVITIES_SERVICE_URL,
+  "/ms7": process.env.SOCKETS_SERVICE_URL,
+  "/ms8": process.env.MEDIA_SERVICE_URL,
 };
 
 // Rutas públicas
-const publicRoutes = ["/authentication/*", "/climate-data/public/*"];
+const publicRoutes = ["/ms1/*", "/ms3/*"];
 
 // Función para verificar si una ruta es pública
 const isPublicRoute = (path) => {
