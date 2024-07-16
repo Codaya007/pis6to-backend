@@ -4,22 +4,22 @@ const softDeletePlugin = require("../pluggins/soft-delete");
 
 const researcherSchema = new Schema(
   {
-    name: {
+    occupation: {
       type: String,
       required: true,
-      minlength: 3,
-      maxlength: 25,
     },
-    lastname: {
+    area: {
       type: String,
       required: true,
-      min: 3,
-      max: 25,
     },
-    occupation: "",
-    area: "",
-    position: "",
-    institution: "",
+    position: {
+      type: String,
+      required: true,
+    },
+    institution: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

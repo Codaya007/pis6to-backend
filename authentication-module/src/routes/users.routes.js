@@ -10,37 +10,35 @@ const validateRequestBody = require("../middlewares/validateRequestBody");
 
 /**
  *  @route GET /
- *  @dec Obtener todas las cuentas
+ *  @dec Obtener todas las usuarios
  *  @access Logged
  */
-
 userRouter.get("/", isLoggedIn, userController.getAllUsers);
 
 /**
  * @route GET /:id
- * @desc Obtener cuenta por id
+ * @desc Obtener usuario por id
  * @access Public
  */
-userRouter.get("/:id", userController.getUserById);
+userRouter.get("/:id", isLoggedIn, userController.getUserById);
 
 /**
  * @route POST/
- * @desc Crear cuenta
+ * @desc Crear usuario
  * @access Public
  */
-
 userRouter.post(
   "/",
+  isLoggedIn,
   validateRequestBody(createUserSchema),
   userController.registerUser
 );
 
 /**
  * @route PUT /:id
- * @desc Actualizar cuenta por id
+ * @desc Actualizar usuario por id
  * @access Public
  */
-
 userRouter.put(
   "/:id",
   isLoggedIn,

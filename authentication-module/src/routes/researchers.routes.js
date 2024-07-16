@@ -13,7 +13,6 @@ const validateRequestBody = require("../middlewares/validateRequestBody");
  *  @dec Obtener todos los investigadores
  *  @access Logged
  */
-
 researcherRouter.get("/", isLoggedIn, researcherController.getAllResearchers);
 
 /**
@@ -21,14 +20,17 @@ researcherRouter.get("/", isLoggedIn, researcherController.getAllResearchers);
  * @desc Obtener investigador por id
  * @access Public
  */
-researcherRouter.get("/:id", researcherController.getResearcherById);
+researcherRouter.get(
+  "/:id",
+  isLoggedIn,
+  researcherController.getResearcherById
+);
 
 /**
  * @route POST/
- * @desc Crear investigador
+ * @desc Registrarse como investigador
  * @access Public
  */
-
 researcherRouter.post(
   "/",
   validateRequestBody(createResearcherSchema),
@@ -40,7 +42,6 @@ researcherRouter.post(
  * @desc Actualizar investigador por id
  * @access Public
  */
-
 researcherRouter.put(
   "/:id",
   isLoggedIn,

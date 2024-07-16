@@ -1,4 +1,5 @@
 const ACTIVE_USER_STATUS = "Activo";
+const INACTIVE_USER_STATUS = "Inactivo";
 const BLOQUED_USER_STATUS = "Bloqueado";
 
 const RESEARCHER_ROLE_NAME = "Investigador";
@@ -9,4 +10,5 @@ module.exports = {
   BLOQUED_USER_STATUS,
   RESEARCHER_ROLE_NAME,
   ADMIN_ROLE_NAME,
+  INACTIVE_USER_STATUS,
 };
