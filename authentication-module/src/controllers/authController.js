@@ -11,7 +11,7 @@ const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
 
   // const user = await authService.login(email, password);
-  const user = await User.findOne({ email, deletedAt: null });
+  const user = await User.findOne({ email, deletedAt: null }).populate("role");
 
   if (!user) {
     return res.json({
