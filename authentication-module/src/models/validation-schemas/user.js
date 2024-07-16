@@ -47,7 +47,7 @@ const editUserSchema = Joi.object({
     "*": "El campo avatar debe ser una URL",
   }),
   identificationCard: Joi.string().custom(isValidCI).optional().messages({
-    "*": "La cédula es debe ser válida",
+    "*": "La cédula debe ser válida",
   }),
   password: Joi.string().optional().min(8).alphanum().max(30).messages({
     "*": "El campo contraseña debe tener entre 8 y 30 caracteres alfanuméricos",

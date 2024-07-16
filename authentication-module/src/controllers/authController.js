@@ -86,6 +86,8 @@ const resetPassword = async (req, res, next) => {
   }
 
   user.password = await hashValue(password);
+  user.token = null;
+  user.tokenExpiresAt = null;
   const newUser = await user.save();
 
   if (!newUser) {

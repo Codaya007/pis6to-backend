@@ -1,3 +1,5 @@
+const crypto = require("crypto");
+
 /**
  * Genera un string urlFriendly, que puede servir como token
  * @return {String} Devuelve token

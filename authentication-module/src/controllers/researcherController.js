@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const { RESEARCHER_ROLE_NAME, INACTIVE_USER_STATUS } = require("../constants");
 const hashValue = require("../helpers/hashValue");
 const Researcher = require("../models/Researcher");
@@ -12,12 +13,14 @@ const getAllResearchers = async (req, res, next) => {
     const skipValue = parseInt(skip) || 0;
     const limitValue = parseInt(limit) || 10;
 
+    const totalCount = await Researcher.countDocuments(where);
     const researchers = await Researcher.find(where)
       .populate({
         path: "user",
+        model: User,
         populate: {
           path: "role",
-          model: "role",
+          model: Role,
         },
       })
       .skip(skipValue)
@@ -25,6 +28,7 @@ const getAllResearchers = async (req, res, next) => {
 
     return res.status(200).json({
       customMessage: "Investigadores obtenidos exitosamente",
+      totalCount,
       results: researchers,
     });
   } catch (error) {
@@ -38,9 +42,10 @@ const getResearcherById = async (req, res, next) => {
   try {
     const researcher = await Researcher.findById(id).populate({
       path: "user",
+      model: User,
       populate: {
         path: "role",
-        model: "role",
+        model: Role,
       },
     });
 

@@ -12,7 +12,7 @@ const isLoggedIn = (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded; // Añadir la información del usuario a la solicitud
 
-    console.log("Middleware ms, decoded: ", decoded);
+    // console.log("Middleware ms, decoded: ", decoded);
     next();
   } catch (error) {
     return res.status(401).json({

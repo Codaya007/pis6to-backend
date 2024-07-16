@@ -12,6 +12,7 @@ const getAllUsers = async (req, res, next) => {
     const skipValue = parseInt(skip) || 0;
     const limitValue = parseInt(limit) || 10;
 
+    const totalCount = await User.countDocuments(where);
     const users = await User.find(where)
       .populate("role")
       .skip(skipValue)
@@ -19,6 +20,7 @@ const getAllUsers = async (req, res, next) => {
 
     return res.status(200).json({
       customMessage: "Usuarios obtenidos exitosamente",
+      totalCount,
       results: users,
     });
   } catch (error) {

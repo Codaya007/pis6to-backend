@@ -8,13 +8,12 @@ const getAllRoles = async (req, res, next) => {
     const skipValue = parseInt(skip) || 0;
     const limitValue = parseInt(limit) || 10;
 
-    const roles = await Role.find(where)
-      .populate("role")
-      .skip(skipValue)
-      .limit(limitValue);
+    const totalCount = await Role.countDocuments(where);
+    const roles = await Role.find(where).skip(skipValue).limit(limitValue);
 
     return res.status(200).json({
       customMessage: "Roles obtenidos exitosamente",
+      totalCount,
       results: roles,
     });
   } catch (error) {
