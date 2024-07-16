@@ -3,7 +3,7 @@ const validateToken = require("../helpers/validateToken");
 
 module.exports = async (req, res, next) => {
   try {
-    const bearerToken = req.header("Autentication");
+    const bearerToken = req.header("Authorization");
     const user = await validateToken(bearerToken);
 
     if (user.deletedAt) {

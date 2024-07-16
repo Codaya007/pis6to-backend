@@ -27,21 +27,42 @@ const serviceProxyConfig = {
 };
 
 // Rutas públicas
-const publicRoutes = ["/ms1/*", "/ms3/*"];
+// const publicRoutes = ["/ms1/auth/*", "/ms1/auth/researcher", "/ms3/*"];
+const publicRoutes = [
+  { path: "/ms1/auth/*", methods: ["POST"] },
+  { path: "/ms1/researchers", methods: ["POST"] },
+  // Aquí puedes agregar más rutas públicas según tus necesidades
+];
 
-// Función para verificar si una ruta es pública
-const isPublicRoute = (path) => {
-  return publicRoutes.some((route) => new RegExp(route).test(path));
-};
-
-// Middleware para aplicar autenticación solo a rutas privadas
 app.use((req, res, next) => {
-  if (isPublicRoute(req.path)) {
+  const isPublic = publicRoutes.some((route) => {
+    const pathMatches = new RegExp(`${route.path}`).test(req.path);
+    const methodMatches = route.methods
+      ? route.methods.includes(req.method)
+      : true;
+    return pathMatches && methodMatches;
+  });
+
+  if (isPublic) {
     next();
   } else {
     isLoggedIn(req, res, next);
   }
 });
+
+// // Función para verificar si una ruta es pública
+// const isPublicRoute = (path) => {
+//   return publicRoutes.some((route) => new RegExp(route).test(path));
+// };
+
+// // Middleware para aplicar autenticación solo a rutas privadas
+// app.use((req, res, next) => {
+//   if (isPublicRoute(req.path)) {
+//     next();
+//   } else {
+//     isLoggedIn(req, res, next);
+//   }
+// });
 
 // Configurar rutas de proxies
 Object.keys(serviceProxyConfig).forEach((context) => {

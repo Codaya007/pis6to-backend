@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const { ACTIVE_USER_STATUS, BLOQUED_USER_STATUS } = require("../constants");
+const {
+  ACTIVE_USER_STATUS,
+  BLOQUED_USER_STATUS,
+  INACTIVE_USER_STATUS,
+} = require("../constants");
 
 const userSchema = new Schema(
   {
@@ -36,7 +40,7 @@ const userSchema = new Schema(
     state: {
       type: String,
       maxLength: 30,
-      isIn: [ACTIVE_USER_STATUS, BLOQUED_USER_STATUS],
+      isIn: [ACTIVE_USER_STATUS, INACTIVE_USER_STATUS, BLOQUED_USER_STATUS],
       default: ACTIVE_USER_STATUS,
     },
     token: {
