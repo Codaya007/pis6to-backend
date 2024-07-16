@@ -1,3 +1,5 @@
+const CustomError = require("../errors/CustomError");
+
 /**
  * Comprueba si el número de cédula ingresado es valido.
  * @param  {string|integer}  ci Número de cédula
@@ -14,7 +16,7 @@ function isValidCI(ci) {
     individual = ci.toString().substring(position, position + 1);
 
     if (isNaN(individual)) {
-      console.log(ci, position, individual, isNaN(individual));
+      // console.log(ci, position, individual, isNaN(individual));
       isNumeric = false;
       break;
     } else {
@@ -49,32 +51,36 @@ function isValidCI(ci) {
 
   if (isNumeric) {
     // El total debe ser igual al último número de la cédula
-    console.log(ci, total, individual);
-    console.log(ci, typeof ci, ci.length);
+    // console.log(ci, total, individual);
+    // console.log(ci, typeof ci, ci.length);
     // La cédula debe contener al menos 10 dígitos
     if (ci.toString().length != 10) {
-      alert("La c\u00E9dula debe ser de: 10 d\u00EDgitos.");
+      new CustomError(
+        "La c\u00E9dula debe ser de: 10 d\u00EDgitos.",
+        null,
+        400
+      );
       return false;
     }
 
     // El número de cédula no debe ser cero
     if (parseInt(ci, 10) == 0) {
-      alert("La c\u00E9dula ingresada no puede ser cero.");
+      new CustomError("La c\u00E9dula ingresada no puede ser cero.", null, 400);
       return false;
     }
 
     // El total debe ser igual al último número de la cédula
     if (total != parseInt(individual)) {
-      alert("La c\u00E9dula ingresada no es v\u00E1lida.");
+      new CustomError("La c\u00E9dula ingresada no es v\u00E1lida.", null, 400);
       return false;
     }
 
-    console.log("cédula válida", ci);
+    // console.log("cédula válida", ci);
     return true;
   }
 
   // Si no es un número
-  alert("El dato solo puede contener numeros.");
+  // new CustomError("El dato solo puede contener numeros.");
   return false;
 }
 
