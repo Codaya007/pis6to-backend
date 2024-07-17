@@ -19,8 +19,8 @@ const createUserSchema = Joi.object({
   avatar: Joi.string().optional().messages({
     "*": "El campo avatar es invalido",
   }),
-  password: Joi.string().required().min(8).max(30).messages({
-    "*": "El campo contraseña es requerida y debe tener entre 8 y 30 caracteres",
+  password: Joi.string().optional().min(8).max(30).messages({
+    "*": "El campo contraseña debe tener entre 8 y 30 caracteres",
   }),
   identificationCard: Joi.string().custom(isValidCI).required().messages({
     "*": "La cédula es requerida y debe ser válida",

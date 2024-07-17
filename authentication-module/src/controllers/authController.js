@@ -14,7 +14,7 @@ const loginUser = async (req, res, next) => {
   const user = await User.findOne({ email, deletedAt: null }).populate("role");
 
   if (!user) {
-    return res.json({
+    return next({
       status: 400,
       customMessage: "La cuenta no fue encontrada",
     });
@@ -88,11 +88,11 @@ const resetPassword = async (req, res, next) => {
   const user = await User.findOne({ token });
 
   if (!user) {
-    return res.json({ status: 400, customMessage: "Token invalido" });
+    return next({ status: 400, customMessage: "Token invalido" });
   }
 
   if (Date.now() > user.tokenExpiresAt) {
-    return res.json({ status: 401, customMessage: "Token a expirado" });
+    return next({ status: 401, customMessage: "Token a expirado" });
   }
 
   user.password = await hashValue(password);

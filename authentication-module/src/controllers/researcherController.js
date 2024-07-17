@@ -8,6 +8,7 @@ const User = require("../models/User");
 const getAllResearchers = async (req, res, next) => {
   try {
     const { skip, limit, ...where } = req.query;
+    where.deletedAt = null;
 
     // Convertir skip y limit a números para asegurar su correcto funcionamiento
     const skipValue = parseInt(skip) || 0;
@@ -73,6 +74,8 @@ const updateResearcher = async (req, res, next) => {
     lastname,
     identificationCard,
     avatar,
+    state,
+
     occupation,
     area,
     position,
@@ -112,6 +115,7 @@ const updateResearcher = async (req, res, next) => {
     if (lastname) user.lastname = lastname;
     if (identificationCard) user.identificationCard = identificationCard;
     if (avatar) user.avatar = avatar;
+    if (state) user.state = state;
 
     if (occupation) researcher.occupation = occupation;
     if (area) researcher.area = area;

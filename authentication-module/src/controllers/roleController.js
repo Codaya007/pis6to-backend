@@ -3,6 +3,7 @@ const Role = require("../models/Role");
 const getAllRoles = async (req, res, next) => {
   try {
     const { skip, limit, ...where } = req.query;
+    where.deletedAt = null;
 
     // Convertir skip y limit a números para asegurar su correcto funcionamiento
     const skipValue = parseInt(skip) || 0;

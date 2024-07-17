@@ -88,16 +88,16 @@ const editResearcherSchema = Joi.object({
     .messages({
       "*": "La cédula es debe ser válida",
     }),
-  occupation: Joi.string().max(30).messages({
+  occupation: Joi.string().max(30).optional().messages({
     "*": "El campo 'ocupación' debe tener hasta 30 caracteres",
   }),
-  area: Joi.string().required().messages({
+  area: Joi.string().optional().messages({
     "*": "El campo 'area' debe tener hasta 30 caracteres",
   }),
-  position: Joi.string().required().messages({
+  position: Joi.string().optional().messages({
     "*": "El campo 'posición' debe tener hasta 30 caracteres",
   }),
-  institution: Joi.string().required().messages({
+  institution: Joi.string().optional().messages({
     "*": "El campo 'institución' debe tener hasta 30 caracteres",
   }),
 });
