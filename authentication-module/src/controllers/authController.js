@@ -60,8 +60,18 @@ const forgotPassword = async (req, res, next) => {
     to: email,
     subject: "Recuperacion de contraseña",
     html: `
-       <b>Haga click en el siguiente enlace o pégelo en su navegador web para la recuperación de contraseña</b>
-       <a href="${FRONTEND_BASEURL}/auth/recovery-password/${token}">${FRONTEND_BASEURL}/recovery-password/${token}</a>
+       <div style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); padding: 20px; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #333333; text-align: center;">Recuperación de Contraseña</h2>
+        <p style="color: #333333; font-size: 16px;">Haga clic en el siguiente enlace o pégelo en su navegador web para recuperar su contraseña:</p>
+        <p style="text-align: center; margin: 20px 0;">
+            <a href="${FRONTEND_BASEURL}/auth/reset-password/${token}" style="display: inline-block; background-color: #007bff; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 4px; font-size: 16px;">
+                Recuperar Contraseña
+            </a>
+        </p>
+        <p style="color: #333333; font-size: 16px; text-align: center;">
+            <a href="${FRONTEND_BASEURL}/auth/reset-password/${token}" style="color: #007bff;">${FRONTEND_BASEURL}/auth/reset-password/${token}</a>
+        </p>
+    </div>
       `,
   };
   await transporter.sendMail(mailOptions);

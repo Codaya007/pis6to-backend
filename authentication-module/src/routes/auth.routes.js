@@ -20,7 +20,7 @@ authRouter.post(
 );
 
 /**
- * @route POST /recovery-password/:token
+ * @route POST /reset-password/:token
  * @desc Recuperar la contraseña usando token de recuperacion creado y enviado a su gmail
  * @access Public
  */
