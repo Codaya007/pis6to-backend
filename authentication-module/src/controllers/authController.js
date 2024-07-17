@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const { FRONTEND_BASEURL } = process.env;
 const transporter = require("../helpers/email");
 const hashValue = require("../helpers/hashValue");
+const Researcher = require("../models/Researcher");
 
 const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
@@ -20,25 +21,36 @@ const loginUser = async (req, res, next) => {
     });
   }
 
-  if (user.state == BLOQUED_USER_STATUS) {
-    return res.json({ status: 401, customMessage: "Cuenta bloqueada" });
+  if (user.state === BLOQUED_USER_STATUS) {
+    return next({ status: 401, customMessage: "Cuenta bloqueada" });
   }
 
-  if (user.state == INACTIVE_USER_STATUS) {
-    return res.json({ status: 401, customMessage: "Credenciales incorrectas" });
+  if (user.state === INACTIVE_USER_STATUS) {
+    return next({ status: 401, customMessage: "Credenciales incorrectas" });
   }
 
   const compare = bcrypt.compareSync(password, user.password);
 
   if (!compare) {
-    return res.json({ status: 401, customMessage: "Credenciales incorrectas" });
+    return next({ status: 401, customMessage: "Credenciales incorrectas" });
   }
+
+  // Añado researcher si hay
+  const researcher = await Researcher.findOne({ user: user._id });
 
   const payload = { id: user.id };
 
   const token = await generateToken(payload);
 
-  return res.json({ customMessage: "Inicio de sesión exitoso", user, token });
+  const userJSON = user.toJSON();
+
+  userJSON.researcher = researcher;
+
+  return res.json({
+    customMessage: "Inicio de sesión exitoso",
+    user: userJSON,
+    token,
+  });
 };
 
 const forgotPassword = async (req, res, next) => {
@@ -47,7 +59,7 @@ const forgotPassword = async (req, res, next) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    return res.json({ status: 400, customMessage: "Email incorrecto" });
+    return next({ status: 400, customMessage: "Email incorrecto" });
   }
 
   const token = generateUrlFriendlyToken();
