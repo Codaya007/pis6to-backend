@@ -6,6 +6,7 @@ const connectDB = require("./db/connectDB");
 const notFound = require("./src/middleware/notFound");
 const errorHandler = require("./src/middleware/errorHandler");
 const logger = require("morgan");
+const cors = require("cors");
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(logger("dev"));
+app.use(cors());
 
 // Configuración de los proxies para cada microservicio usando variables de entorno
 const serviceProxyConfig = {
