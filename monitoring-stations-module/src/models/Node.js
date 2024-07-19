@@ -30,6 +30,10 @@ const nodeSchema = new Schema(
       enum: [ACTIVE_STATUS_NAME, INACTIVE_STATUS_NAME],
       default: ACTIVE_STATUS_NAME,
     },
+    monitogingStation: {
+      type: mongoose.Types.ObjectId,
+      ref: "monitoringstations",
+    },
   },
   {
     timestamps: true,
@@ -38,6 +42,6 @@ const nodeSchema = new Schema(
 
 nodeSchema.plugin(softDeletePlugin);
 
-const node = mongoose.model("nodes", nodeSchema);
+const Node = mongoose.model("nodes", nodeSchema);
 
-module.exports = node;
+module.exports = Node;

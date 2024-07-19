@@ -1,12 +1,132 @@
-const getAllNodes = () => {};
+const Node = require("../models/Node");
 
-const getNodeById = () => {};
+const getAllNodes = async (req, res, next) => {
+  try {
+    const { skip, limit, ...where } = req.query;
+    where.deletedAt = null;
 
-const updateNode = () => {};
+    // Convertir skip y limit a números para asegurar su correcto funcionamiento
+    const skipValue = parseInt(skip) || 0;
+    const limitValue = parseInt(limit) || 10;
 
-const deleteNode = () => {};
+    const totalCount = await Node.countDocuments(where);
+    const nodes = await Node.find(where)
+      .populate("monitoringStation")
+      .skip(skipValue)
+      .limit(limitValue);
 
-const createNode = async () => {};
+    return res.status(200).json({
+      customMessage: "Nodos obtenidos exitosamente",
+      totalCount,
+      results: nodes,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getNodeById = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const node = await Node.findById(id).populate("monitoringStation");
+
+    if (!node) {
+      return next({
+        status: 404,
+        customMessage: "Nodo no encontrado",
+      });
+    }
+
+    return res.status(200).json({
+      customMessage: "Nodo obtenido exitosamente",
+      results: node,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updateNode = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const node = await Node.findById(id);
+
+    if (!node) {
+      return next({
+        status: 404,
+        customMessage: "Nodo no encontrado",
+      });
+    }
+
+    await Node.updateOne({ _id: id }, req.body);
+
+    return res.status(200).json({
+      customMessage: "Nodo actualizada exitosamente",
+      results: node,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteNode = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const node = await Node.findById(id);
+
+    if (!node || node.deletedAt !== null) {
+      return next({
+        status: 404,
+        customMessage: "Nodo no encontrado",
+      });
+    }
+
+    await Node.updateOne({ _id: id }, { deletedAt: new Date() });
+
+    return res.status(200).json({
+      customMessage: "Nodo eliminado exitosamente",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const createNode = async (req, res, next) => {
+  const { name, ...body } = req.body;
+
+  try {
+    const nodeAlreadyExists = await Node.findOne({
+      name,
+      deletedAt: null,
+    });
+
+    if (nodeAlreadyExists) {
+      return next({
+        status: 400,
+        customMessage: `Ya existe un nodo '${name}'`,
+      });
+    }
+
+    const node = await Node.create({
+      name,
+      ...body,
+    });
+
+    return res.status(201).json({
+      customMessage: "Nodo registrado exitosamente",
+      results: node,
+    });
+  } catch (error) {
+    return next({
+      status: 500,
+      customMessage: "Error al registrar nodo",
+      error: error.message,
+    });
+  }
+};
 
 module.exports = {
   getAllNodes,

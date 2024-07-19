@@ -1,12 +1,52 @@
-const getAllLimitsConfigs = () => {};
+const getAllLimitsConfigs = async (req, res, next) => {
+  try {
+    return res.status(200).json({
+      customMessage: "Mensaje de prueba",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
-const getLimitsConfigById = () => {};
+const getLimitsConfigById = async (req, res, next) => {
+  try {
+    return res.status(200).json({
+      customMessage: "Mensaje de prueba",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
-const updateLimitsConfig = () => {};
+const updateLimitsConfig = async (req, res, next) => {
+  try {
+    return res.status(200).json({
+      customMessage: "Mensaje de prueba",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
-const deleteLimitsConfig = () => {};
+const deleteLimitsConfig = async (req, res, next) => {
+  try {
+    return res.status(200).json({
+      customMessage: "Mensaje de prueba",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
-const createLimitsConfig = async () => {};
+const createLimitsConfig = async (req, res, next) => {
+  try {
+    return res.status(200).json({
+      customMessage: "Mensaje de prueba",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   getAllLimitsConfigs,

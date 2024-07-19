@@ -36,6 +36,6 @@ const sensorSchema = new Schema(
 
 sensorSchema.plugin(softDeletePlugin);
 
-const sensor = mongoose.model("sensors", sensorSchema);
+const Sensor = mongoose.model("sensors", sensorSchema);
 
-module.exports = sensor;
+module.exports = Sensor;
