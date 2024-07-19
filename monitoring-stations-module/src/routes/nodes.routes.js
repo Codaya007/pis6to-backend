@@ -20,7 +20,14 @@ nodeRouter.get("/", nodeController.getAllNodes);
  * @desc Obtener nodo por id
  * @access Public
  */
-nodeRouter.get("/:id", nodeController.getNodeById);
+nodeRouter.get("/:id", nodeController.getNodeByParams);
+
+/**
+ * @route GET /code/:code
+ * @desc Obtener nodo por id
+ * @access Public
+ */
+nodeRouter.get("/code/:code", nodeController.getNodeByParams);
 
 /**
  * @route POST/

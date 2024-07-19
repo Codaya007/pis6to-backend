@@ -25,11 +25,11 @@ const getAllNodes = async (req, res, next) => {
   }
 };
 
-const getNodeById = async (req, res, next) => {
-  const { id } = req.params;
+const getNodeByParams = async (req, res, next) => {
+  const where = req.params;
 
   try {
-    const node = await Node.findById(id).populate("monitoringStation");
+    const node = await Node.findOne(where).populate("monitoringStation");
 
     if (!node) {
       return next({
@@ -130,7 +130,7 @@ const createNode = async (req, res, next) => {
 
 module.exports = {
   getAllNodes,
-  getNodeById,
+  getNodeByParams,
   createNode,
   updateNode,
   deleteNode,
