@@ -36,6 +36,21 @@ sensorRouter.get("/:id", sensorController.getSensorById);
  */
 
 sensorRouter.get("/monitoring-station/:id", sensorController.getSensorsByMonitoringStation);
+/**
+ * @route GET/ :id
+ * @desc Obtener sensores por nodo
+ * @access Public
+ */
+
+sensorRouter.get("/nodo/:id", sensorController.getSensorsByNode);
+/**
+ * @route GET/ :id
+ * @desc Obtener sensores por nodo 
+ * @access Public
+ */
+
+sensorRouter.get("/node/:id", sensorController.getSensorsByMonitoringStation);
+
 
 /**
  * @route POST/

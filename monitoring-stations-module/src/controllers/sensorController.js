@@ -140,6 +140,29 @@ const getSensorsByMonitoringStation = async (req, res) =>{
     next(error);
   }
 }
+const getSensorsByNode = async (req, res) =>{
+  try {
+    const { page = 1, limit = 10, id} = req.query;
+    if(!id){
+      return res.status(400).json({
+        msg: 'ID del nodo requerido'
+      });
+    }
+    const totalCount = await Sensor.countDocuments({ node: id });
+    const data = await Sensor.find({ node: id })
+      .skip((parseInt(page) - 1) * limit)
+      .limit(limit)
+      .exec();
+
+    res.status(200).json({
+      msg: 'OK',
+      totalCount,
+      data,
+    });
+  }catch(error){
+    next(error);
+  }
+}
 
 module.exports = {
   getAllSensors,
@@ -148,5 +171,6 @@ module.exports = {
   updateSensor,
   deleteSensor,
   getSensorTypes,
-  getSensorsByMonitoringStation
+  getSensorsByMonitoringStation,
+  getSensorsByNode
 };
