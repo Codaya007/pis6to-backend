@@ -13,14 +13,21 @@ const validateRequestBody = require("../middlewares/validateRequestBody");
  *  @dec Obtener todos los limites de configuraciones
  *  @access Public
  */
-limitsConfigRouter.get("/", limitsconfigController.getAllLimitsConfigs);
+limitsConfigRouter.get("/", limitsconfigController.getAllLimitConfigs);
 
 /**
  * @route GET /:id
  * @desc Obtener limites de configuraciones por id
  * @access Public
  */
-limitsConfigRouter.get("/:id", limitsconfigController.getLimitsConfigById);
+limitsConfigRouter.get("/one", limitsconfigController.getOneLimitConfig);
+
+/**
+ * @route GET /:id
+ * @desc Obtener limites de configuraciones por id
+ * @access Public
+ */
+limitsConfigRouter.get("/:id", limitsconfigController.getOneLimitConfig);
 
 /**
  * @route POST/
@@ -32,7 +39,7 @@ limitsConfigRouter.post(
   "/",
   isLoggedIn,
   validateRequestBody(createLimitsConfigSchema),
-  limitsconfigController.createLimitsConfig
+  limitsconfigController.createLimitConfig
 );
 
 /**
@@ -45,7 +52,7 @@ limitsConfigRouter.put(
   "/:id",
   isLoggedIn,
   validateRequestBody(editLimitsConfigSchema),
-  limitsconfigController.updateLimitsConfig
+  limitsconfigController.updateLimitConfig
 );
 
 /**
@@ -56,7 +63,7 @@ limitsConfigRouter.put(
 limitsConfigRouter.delete(
   "/:id",
   isLoggedIn,
-  limitsconfigController.deleteLimitsConfig
+  limitsconfigController.deleteLimitConfig
 );
 
 module.exports = limitsConfigRouter;

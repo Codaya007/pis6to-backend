@@ -1,3 +1,4 @@
+const { ALLOWED_SENSORS } = require("../constants");
 const Sensor = require("../models/Sensor");
 
 const getAllSensors = async (req, res, next) => {
@@ -111,10 +112,15 @@ const createSensor = async (req, res, next) => {
   }
 };
 
+const getSensorTypes = (req, res) => {
+  return res.json(ALLOWED_SENSORS);
+};
+
 module.exports = {
   getAllSensors,
   getSensorById,
   createSensor,
   updateSensor,
   deleteSensor,
+  getSensorTypes,
 };

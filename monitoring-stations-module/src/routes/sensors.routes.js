@@ -9,6 +9,13 @@ const sensorController = require("../controllers/sensorController");
 const validateRequestBody = require("../middlewares/validateRequestBody");
 
 /**
+ *  @route GET /sensor-types
+ *  @dec Obtener todos los tipos de sensores
+ *  @access Public
+ */
+sensorRouter.get("/sensor-types", sensorController.getSensorTypes);
+
+/**
  *  @route GET /
  *  @dec Obtener todos los sensores
  *  @access Public

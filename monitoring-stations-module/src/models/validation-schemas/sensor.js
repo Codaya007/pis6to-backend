@@ -13,7 +13,7 @@ const createSensorSchema = Joi.object({
     .messages({
       "*": "El campo 'type' es requerido y debe ser uno de los valores permitidos",
     }),
-  node: Joi.string().optional().messages({
+  node: Joi.string().required().messages({
     "*": "El campo 'node' debe ser un ObjectId válido",
   }),
   code: Joi.string().required().messages({

@@ -21,8 +21,8 @@ const createNodeSchema = Joi.object({
     .messages({
       "*": `El campo 'status' debe ser '${ACTIVE_STATUS_NAME}' o '${INACTIVE_STATUS_NAME}'`,
     }),
-  monitogingStation: Joi.string().optional().messages({
-    "*": "El campo 'monitogingStation' debe ser un ObjectId válido",
+  monitoringStation: Joi.string().required().messages({
+    "*": "El campo 'monitoringStation' debe ser un ObjectId válido",
   }),
 });
 
@@ -48,8 +48,8 @@ const editNodeSchema = Joi.object({
     .messages({
       "*": `El campo 'status' debe ser '${ACTIVE_STATUS_NAME}' o '${INACTIVE_STATUS_NAME}'`,
     }),
-  monitogingStation: Joi.string().optional().messages({
-    "*": "El campo 'monitogingStation' debe ser un ObjectId válido",
+  monitoringStation: Joi.string().optional().messages({
+    "*": "El campo 'monitoringStation' debe ser un ObjectId válido",
   }),
 });
 

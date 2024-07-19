@@ -30,7 +30,7 @@ const nodeSchema = new Schema(
       enum: [ACTIVE_STATUS_NAME, INACTIVE_STATUS_NAME],
       default: ACTIVE_STATUS_NAME,
     },
-    monitogingStation: {
+    monitoringStation: {
       type: mongoose.Types.ObjectId,
       ref: "monitoringstations",
     },
