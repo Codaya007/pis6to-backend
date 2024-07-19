@@ -7,6 +7,6 @@ router.get("/", function (req, res, next) {
   res.render("index", { title: "Express" });
 });
 
-router.use("/climate-data", climateDataRouter);
+router.use("/climate-datas", climateDataRouter);
 
 module.exports = router;
