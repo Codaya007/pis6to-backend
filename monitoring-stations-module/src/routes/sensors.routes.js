@@ -30,6 +30,29 @@ sensorRouter.get("/", sensorController.getAllSensors);
 sensorRouter.get("/:id", sensorController.getSensorById);
 
 /**
+ * @route GET/ :id
+ * @desc Obtener sensores por estacion de monitoreo
+ * @access Public
+ */
+
+sensorRouter.get("/monitoring-station/:id", sensorController.getSensorsByMonitoringStation);
+/**
+ * @route GET/ :id
+ * @desc Obtener sensores por nodo
+ * @access Public
+ */
+
+sensorRouter.get("/nodo/:id", sensorController.getSensorsByNode);
+/**
+ * @route GET/ :id
+ * @desc Obtener sensores por nodo 
+ * @access Public
+ */
+
+sensorRouter.get("/node/:id", sensorController.getSensorsByMonitoringStation);
+
+
+/**
  * @route POST/
  * @desc Crear sensor
  * @access Public
