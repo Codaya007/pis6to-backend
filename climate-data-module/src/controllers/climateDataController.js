@@ -36,6 +36,8 @@ const logClimateData = async (req, res, next) => {
       climateData.monitoringStation = node.monitoringStation;
       climateData.status = node.status;
 
+      // TODO: Añadir envío de datos a socket de climateDataNode{id_nodo} y climateDataMonitoringStation${id_station}
+
       climateData.save();
     }
 

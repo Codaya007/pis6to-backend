@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monitoringstations
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: monitoringstations
+  template:
+    metadata:
+      labels:
+        app: monitoringstations
+    spec:
+      containers:
+        - name: monitoringstations
+          image: pis6toregistrygroup.azurecr.io/monitoringstations:1.0
+          ports:
+            - containerPort: 4002
