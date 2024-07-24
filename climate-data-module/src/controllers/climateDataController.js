@@ -48,8 +48,53 @@ const logClimateData = async (req, res, next) => {
   }
 };
 
+const getClimateDataByDate = async (req, res, next) => {
+  try {
+    const { date } = req.query;
+    const climateData = await ClimateData.find({ date });
+
+    return res.status(200).json({
+      customMessage: "Datos climáticos por fecha",
+      results: climateData,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getClimateDataByNode = async (req, res, next) => {
+  try {
+    const { nodeCode } = req.params;
+    const climateData = await ClimateData.find({ node: nodeCode });
+
+    return res.status(200).json({
+      customMessage: "Datos climáticos por nodo",
+      results: climateData,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getClimateDataByMonitoringStation = async (req, res, next) => {
+  try {
+    const { monitoringStation } = req.params;
+    const climateData = await ClimateData.find({ monitoringStation });
+
+    return res.status(200).json({
+      customMessage: "Datos climáticos por estación de monitoreo",
+      results: climateData,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getAllClimateData,
   getClimateDataById,
   logClimateData,
+  getClimateDataByDate,
+  getClimateDataByNode,
+  getClimateDataByMonitoringStation,
 };

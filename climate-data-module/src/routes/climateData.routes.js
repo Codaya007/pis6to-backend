@@ -34,4 +34,31 @@ climateDataRouter.post(
   climateDataController.logClimateData
 );
 
+/**
+ *  @route GET /date
+ * @desc Obtener climatedata por fecha
+ * @access Public
+ */
+climateDataRouter.get("/date", climateDataController.getClimateDataByDate);
+
+/**
+ * @route GET /node/:nodeCode
+ * @desc Obtener climatedata por código de nodo
+ * @access Public
+ */
+climateDataRouter.get(
+  "/node/:nodeCode",
+  climateDataController.getClimateDataByNode
+);
+
+/**
+ * @route GET /station/:stationCode
+ * @desc Obtener climatedata por código de estación
+ * @access Public
+ */
+climateDataRouter.get(
+  "/station/:stationCode",
+  climateDataController.getClimateDataByMonitoringStation
+);
+
 module.exports = climateDataRouter;
