@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: climatedata
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: climatedata
+  template:
+    metadata:
+      labels:
+        app: climatedata
+    spec:
+      containers:
+        - name: climatedata
+          image: pis6toregistrygroup.azurecr.io/climatedata:1.0
+          ports:
+            - containerPort: 4003
+      imagePullSecrets:
+        - name: my-acr-secret

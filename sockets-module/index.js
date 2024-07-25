@@ -94,6 +94,7 @@ io.on("connection", (socket) => {
           title,
           content,
           type,
+          url,
         };
 
         socket.broadcast.emit(`notifications${userId}`, socketData);
@@ -134,6 +135,11 @@ io.on("connection", (socket) => {
         };
 
         socket.broadcast.emit(`climateData`, socketData);
+        socket.broadcast.emit(`climateDataNode${node}`, socketData);
+        socket.broadcast.emit(
+          `climateDataMonitoringStation${monitoringStation}`,
+          socketData
+        );
 
         //! Respondo con éxito
         socket.emit("response", {
@@ -141,7 +147,7 @@ io.on("connection", (socket) => {
           message: "Datos enviados exitosamente",
         });
       } catch (error) {
-        console.error("Error in sendAdminNotification: ", error);
+        console.error("Error in sendClimateData: ", error);
         //! Respondo con error
         socket.emit("response", { success: false, message: error.message });
       }

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: downloadrequests
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: downloadrequests
+  template:
+    metadata:
+      labels:
+        app: downloadrequests
+    spec:
+      containers:
+        - name: downloadrequests
+          image: pis6toregistrygroup.azurecr.io/downloadrequests:1.0
+          ports:
+            - containerPort: 4005
+      imagePullSecrets:
+        - name: my-acr-secret

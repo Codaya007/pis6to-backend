@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertsandnotifications
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alertsandnotifications
+  template:
+    metadata:
+      labels:
+        app: alertsandnotifications
+    spec:
+      containers:
+        - name: alertsandnotifications
+          image: pis6toregistrygroup.azurecr.io/alertsandnotifications:1.0
+          ports:
+            - containerPort: 4004
+      imagePullSecrets:
+        - name: my-acr-secret

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: media
+  template:
+    metadata:
+      labels:
+        app: media
+    spec:
+      containers:
+        - name: media
+          image: pis6toregistrygroup.azurecr.io/media:1.0
+          ports:
+            - containerPort: 4008
+      imagePullSecrets:
+        - name: my-acr-secret
