@@ -17,3 +17,5 @@ spec:
           image: pis6toregistrygroup.azurecr.io/monitoringstations:1.0
           ports:
             - containerPort: 4002
+      imagePullSecrets:
+        - name: my-acr-secret
