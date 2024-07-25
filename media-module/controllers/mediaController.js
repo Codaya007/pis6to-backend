@@ -15,6 +15,7 @@ async function uploadImage(req, res, next) {
 
     return res.json({ url: result.Location });
   } catch (error) {
+    console.log("dentro de error");
     next(error);
   }
 }
