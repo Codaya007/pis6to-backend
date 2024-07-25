@@ -37,11 +37,11 @@ const nodeSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },{ collection: 'nodes' }
 );
 
 nodeSchema.plugin(softDeletePlugin);
 
-const Node = mongoose.model("nodes", nodeSchema);
+const Node = mongoose.model("Node", nodeSchema);
 
 module.exports = Node;
