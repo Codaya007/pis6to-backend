@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: pis6toregistrygroup.azurecr.io/api-gateway:1.0
+          ports:
+            - containerPort: 4000
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: SERVICE_1_URL
+              value: "http://microservice1:80"
+            - name: SERVICE_2_URL
+              value: "http://microservice2:80"

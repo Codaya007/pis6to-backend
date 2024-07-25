@@ -10,15 +10,15 @@ const {
 } = require("../models/validation-schemas/downloadRequest");
 
 /**
- *  @route GET /
- *  @dec Obtener todos los sensores
- *  @access Public
+ * @route GET /
+ * @desc Obtener todas las solicitudes de descarga
+ * @access Public
  */
 downloadRequestRouter.get("/", downloadRequestController.getAllDownloadRequest);
 
 /**
  * @route GET /:id
- * @desc Obtener sensor por id
+ * @desc Obtener solicitud de descarga por id
  * @access Public
  */
 downloadRequestRouter.get(
@@ -28,10 +28,9 @@ downloadRequestRouter.get(
 
 /**
  * @route POST/
- * @desc Crear sensor
- * @access Public
+ * @desc Crear una solicitud de descarga (solo para investigadores)
+ * @access Private
  */
-
 downloadRequestRouter.post(
   "/",
   isLoggedIn,
@@ -41,28 +40,25 @@ downloadRequestRouter.post(
 
 /**
  * @route PUT /:id
- * @desc Rechazar solicitud
+ * @desc Actualizar el estado de una solicitud (aceptar, cancelar)
  * @access Admin
  */
-
 downloadRequestRouter.put(
   "/:id",
   isLoggedIn,
   validateRequestBody(acceptDownloadRequestSchema),
-  downloadRequestController.dennyDownloadRequest
+  downloadRequestController.updateDownloadRequestStatus
 );
 
 /**
- * @route PUT /:id
- * @desc Aceptar solicitud
- * @access Public
+ * @route GET /user
+ * @desc Obtener solicitudes de descarga del usuario logueado
+ * @access Private
  */
-
-downloadRequestRouter.put(
-  "/:id",
+downloadRequestRouter.get(
+  "/user",
   isLoggedIn,
-  validateRequestBody(denyDownloadRequestSchema),
-  downloadRequestController.acceptDownloadRequest
+  downloadRequestController.getDownloadRequestsByUser
 );
 
 module.exports = downloadRequestRouter;

@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sockets
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sockets
+  template:
+    metadata:
+      labels:
+        app: sockets
+    spec:
+      containers:
+        - name: sockets
+          image: pis6toregistrygroup.azurecr.io/sockets:1.0
+          ports:
+            - containerPort: 4007

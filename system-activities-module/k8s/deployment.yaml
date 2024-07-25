@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: systemactivities
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: systemactivities
+  template:
+    metadata:
+      labels:
+        app: systemactivities
+    spec:
+      containers:
+        - name: systemactivities
+          image: pis6toregistrygroup.azurecr.io/systemactivities:1.0
+          ports:
+            - containerPort: 4006
