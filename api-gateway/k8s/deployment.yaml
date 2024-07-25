@@ -22,5 +22,17 @@ spec:
               value: "http://authentication:80"
             - name: MONITORING_STATIONS_SERVICE_URL
               value: "http://monitoringstations:80"
+            - name: CLIMATE_DATA_SERVICE_URL
+              value: "http://climatedata:80"
+            - name: ALERTS_AND_NOTIFICATIONS_SERVICE_URL
+              value: "http://alertsandnotifications:80"
+            - name: DOWNLOAD_REQUESTS_SERVICE_URL
+              value: "http://downloadrequests:80"
+            - name: SYSTEM_ACTIVITIES_SERVICE_URL
+              value: "http://systemactivities:80"
+            - name: SOCKETS_SERVICE_URL
+              value: "http://sockets:80"
+            - name: MEDIA_SERVICE_URL
+              value: "http://media:80"
       imagePullSecrets:
         - name: my-acr-secret
