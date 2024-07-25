@@ -69,7 +69,7 @@ const editMonitoringStationSchema = Joi.object({
     "*": "El campo 'fotos' debe ser una lista de cadenas o nulo",
   }),
   coordinate: Joi.array()
-    .items(Joi.number().integer().precision(10))
+    .items(Joi.number().precision(10))
     .length(2)
     .optional()
     .allow(null)
@@ -83,7 +83,7 @@ const editMonitoringStationSchema = Joi.object({
       "*": `El campo 'estado' debe ser '${ACTIVE_STATUS_NAME}' o '${INACTIVE_STATUS_NAME}'`,
     }),
   nomenclature: monitoringStationNomenclatureSchema.optional().messages({
-    "*": "El campo 'nomenclatura' debe seguir la estructura definida",
+    "*": "El campo 'nomenclatura' debe seguir la estructura definidaaaaaaaaaa",
   }),
 });
 
