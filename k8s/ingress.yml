@@ -5,6 +5,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: api-pis6to-dns-dl73e6qv.hcp.eastus.azmk8s.io
   rules:
     - host: api-pis6to-dns-dl73e6qv.hcp.eastus.azmk8s.io
       http:
@@ -15,7 +16,7 @@ spec:
               service:
                 name: api-gateway
                 port:
-                  number: 4000
+                  number: 80
           #! DESPUES QUITAR ESTOS PATHS, SLO QUEDA EL API GATEWAY
           - path: /alertsandnotifications
             pathType: Prefix
