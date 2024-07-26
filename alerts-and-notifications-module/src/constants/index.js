@@ -18,6 +18,12 @@ const SENSOR_TYPES_DICTIONARY = {
 const ACTIVE_STATUS_NAME = "Activo";
 const INACTIVE_STATUS_NAME = "Inactivo";
 
+//Alerts
+const ERROR_TYPE_ALERT = "error" 
+const WARN_TYPE_ALERT = "warn"
+const SUCCESS_TYPE_ALERT = "success"
+const INFO_TYPE_ALERT = "info"
+
 module.exports = {
   ACTIVE_USER_STATUS,
   BLOQUED_USER_STATUS,
@@ -31,4 +37,10 @@ module.exports = {
 
   ACTIVE_STATUS_NAME,
   INACTIVE_STATUS_NAME,
+
+  //Tipos de alertas
+  ERROR_TYPE_ALERT,
+  WARN_TYPE_ALERT,
+  SUCCESS_TYPE_ALERT,
+  INFO_TYPE_ALERT,
 };

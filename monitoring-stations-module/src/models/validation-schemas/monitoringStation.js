@@ -69,7 +69,7 @@ const editMonitoringStationSchema = Joi.object({
     "*": "El campo 'fotos' debe ser una lista de cadenas o nulo",
   }),
   coordinate: Joi.array()
-    .items(Joi.number().integer().precision(10))
+    .items(Joi.number().precision(10))
     .length(2)
     .optional()
     .allow(null)
