@@ -1,3 +1,4 @@
+const { ACTIVE_STATUS_NAME } = require("../constants");
 const { getNodeByCode, getNodeById } = require("../integrations/node");
 const ClimateData = require("../models/ClimateData");
 const moment = require("moment-timezone");
@@ -100,8 +101,15 @@ const logClimateData = async (req, res, next) => {
       climateData.monitoringStation = node.monitoringStation;
       climateData.status = node.status;
 
-      // TODO: Añadir envío de datos a socket de climateDataNode{id_nodo} y climateDataMonitoringStation${id_station}
-      // io;
+      //! Emito los datos al canal de socket correspondiente si el nodo está activo
+      if (node.status === ACTIVE_STATUS_NAME) {
+        const io = req.app.get("socketio"); // Obtener la instancia de io desde req.app
+        io.emit(`climateDataNode${node._id}`, climateData);
+        io.emit(
+          `climateDataMonitoringStation${node.monitoringStation}`,
+          climateData
+        );
+      }
 
       climateData.save();
     }

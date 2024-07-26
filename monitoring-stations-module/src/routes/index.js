@@ -3,6 +3,7 @@ const limitsConfigRouter = require("./limitsConfig.routes");
 const sensorRouter = require("./sensors.routes");
 const nodeRouter = require("./nodes.routes");
 const monitoringstationRouter = require("./monitoringStations.routes");
+const normallimitsConfigRouter = require("./normalLimitsConfig.routes");
 var router = express.Router();
 
 /* GET home page. */
@@ -10,6 +11,7 @@ router.get("/", function (req, res, next) {
   res.render("index", { title: "Express" });
 });
 
+router.use("/normal-limits-config", normallimitsConfigRouter);
 router.use("/limits-config", limitsConfigRouter);
 router.use("/monitoring-stations", monitoringstationRouter);
 router.use("/nodes", nodeRouter);

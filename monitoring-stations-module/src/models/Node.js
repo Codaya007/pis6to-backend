@@ -27,7 +27,7 @@ const nodeSchema = new Schema(
     },
     status: {
       type: String,
-      enum: [ACTIVE_STATUS_NAME, INACTIVE_STATUS_NAME],
+      enum: [ACTIVE_STATUS_NAME, INACTIVE_STATUS_NAME, "Alerta"],
       default: ACTIVE_STATUS_NAME,
     },
     monitoringStation: {
@@ -37,7 +37,8 @@ const nodeSchema = new Schema(
   },
   {
     timestamps: true,
-  },{ collection: 'nodes' }
+  },
+  { collection: "nodes" }
 );
 
 nodeSchema.plugin(softDeletePlugin);
