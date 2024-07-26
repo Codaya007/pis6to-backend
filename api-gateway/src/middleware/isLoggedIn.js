@@ -33,6 +33,8 @@ module.exports = async (req, res, next) => {
     // Generar un nuevo JWT para el usuario autenticado
     const jwtPayload = {
       id: user._id,
+      name: user.name,
+      lastname: user.lastname,
       email: user.email,
       roleName: user.role?.name,
     };
