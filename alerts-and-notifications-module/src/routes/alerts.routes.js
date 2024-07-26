@@ -45,7 +45,7 @@ alertRouter.post(
 
 alertRouter.put(
   "/resolve/:id",
-  // isLoggedIn,
+  isLoggedIn,
   validateRequestBody(resolveAlert),
   alertController.resolveAlert
 );
@@ -58,7 +58,7 @@ alertRouter.put(
 
 alertRouter.put(
   "/mute/:id",
-  // isLoggedIn,
+  isLoggedIn,
   validateRequestBody(muteAlert),
   alertController.muteAlert
 )

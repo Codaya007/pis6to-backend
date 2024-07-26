@@ -1,7 +1,26 @@
 const Node = require("../models/Node");
 
 const getAllNodes = async (req, res, next) => {
-  try {
+ 
+  // try {
+  //   const { page = 1, limit = 10, ...where } = req.query;
+
+  //   // const totalCount = await Node.countDocuments(where);
+  //   const data = await Node.find();
+
+  //   res.status(200);
+  //   console.log('NODESSS');
+  //   res.json({
+  //       msg: "OK",
+  //       // totalCount,
+  //       data,
+  //   });
+  // } catch (error) {
+  //     res.status(400);
+  //     res.json({ msg: "Algo salió mal", error: error.message });
+  // }
+  // return res;
+    try {
     const { skip, limit, ...where } = req.query;
     where.deletedAt = null;
 
@@ -24,6 +43,7 @@ const getAllNodes = async (req, res, next) => {
     next(error);
   }
 };
+
 
 const getNodeByParams = async (req, res, next) => {
   const {id} = req.params;
