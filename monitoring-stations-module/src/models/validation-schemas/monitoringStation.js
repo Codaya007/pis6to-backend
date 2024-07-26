@@ -83,7 +83,7 @@ const editMonitoringStationSchema = Joi.object({
       "*": `El campo 'estado' debe ser '${ACTIVE_STATUS_NAME}' o '${INACTIVE_STATUS_NAME}'`,
     }),
   nomenclature: monitoringStationNomenclatureSchema.optional().messages({
-    "*": "El campo 'nomenclatura' debe seguir la estructura definidaaaaaaaaaa",
+    "*": "El campo 'nomenclatura' debe seguir la estructura definida",
   }),
 });
 
