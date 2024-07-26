@@ -40,6 +40,11 @@ const alertSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    // Comentario que se puede guardar cuando la alerta se resuelve
+    resolvedComment: {
+      type: String,
+      default: null,
+    },
   },
   {
     timestamps: true,
