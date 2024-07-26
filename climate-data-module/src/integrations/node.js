@@ -50,7 +50,7 @@ const getNodeById = async (id = "", bearerToken) => {
 
 const getAllActiveNodes = async (bearerToken, monitoringStation) => {
   try {
-    const url = `${API_BASEURL}/ms2/nodes?status=${ACTIVE_STATUS_NAME}&limit=100`;
+    let url = `${API_BASEURL}/ms2/nodes?status=${ACTIVE_STATUS_NAME}&limit=100`;
 
     if (monitoringStation) url += `&monitoringStation=${monitoringStation}`;
 
@@ -59,6 +59,8 @@ const getAllActiveNodes = async (bearerToken, monitoringStation) => {
     };
 
     const { data } = await axios.get(url, config);
+
+    console.log({ data });
 
     if (!data.results) return [];
 
