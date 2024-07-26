@@ -52,9 +52,10 @@ const getAlertById = async (req, res, next) => {
 
 const resolveAlert = async (req, res, next) => {
   const { id } = req.params;
-  const { resolvedComment } = req.body;
+  const { appliedActions } = req.body;
   const resolvedBy = req.user?.id;
   const emitSound = false;
+  const resolvedAt = new Date();
 
   try {
     const alert = await Alert.findById(id);
@@ -73,7 +74,13 @@ const resolveAlert = async (req, res, next) => {
     const resultado = await Alert.findByIdAndUpdate(
       id,
       {
-        $set: { resolved: true, emitSound, resolvedBy, resolvedComment },
+        $set: {
+          resolved: true,
+          emitSound,
+          resolvedBy,
+          appliedActions,
+          resolvedAt,
+        },
       },
       { new: true } // Opcional: devuelve el documento actualizado
     );
