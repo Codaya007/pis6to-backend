@@ -32,11 +32,11 @@ const serviceProxyConfig = {
 // const publicRoutes = ["/ms1/auth/*", "/ms1/auth/researcher", "/ms3/*"];
 const publicRoutes = [
   { path: "/ms1/auth/*", methods: ["POST"] },
-  { path: "/ms1/researchers", methods: ["POST"] },
+  // { path: "/ms1/researchers", methods: ["POST"] },
   // Eliminar direccion publica de monitoring stations
   {
     path: "/ms2/monitoring-stations",
-    methods: ["POST", "GET", "PUT", "DELETE"],
+    methods: ["GET"],
   },
   {
     path: "/ms2/nodes/code/*",
@@ -46,9 +46,8 @@ const publicRoutes = [
     path: "/ms2/nodes/*",
     methods: ["GET"],
   },
-  { path: "/ms8/media/*", methods: ["POST"] },
+  // { path: "/ms8/media/*", methods: ["POST"] },
   { path: "/ms4/*", methods: ["POST", "GET", "PUT", "DELETE"] },
-  // Aquí puedes agregar más rutas públicas según tus necesidades
 ];
 
 app.use((req, res, next) => {

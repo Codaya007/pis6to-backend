@@ -104,6 +104,7 @@ const logClimateData = async (req, res, next) => {
       //! Emito los datos al canal de socket correspondiente si el nodo está activo
       if (node.status === ACTIVE_STATUS_NAME) {
         const io = req.app.get("socketio"); // Obtener la instancia de io desde req.app
+        io.emit(`climateData`, climateData);
         io.emit(`climateDataNode${node._id}`, climateData);
         io.emit(
           `climateDataMonitoringStation${node.monitoringStation}`,

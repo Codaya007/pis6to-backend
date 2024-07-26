@@ -67,9 +67,17 @@ const getAllSystemActivities = async (req, res, next) => {
 
 const getSystemActivityById = async (req, res, next) => {
   try {
-    const activity = await Researcher.findById(req.params?.id);
+    let systemActivity = await SystemActivity.findById(req.params?.id);
+    systemActivity = systemActivity.toJSON();
 
-    if (!activity) {
+    const user = await getUserById(
+      systemActivity.user,
+      req.header("Authorization")
+    ).catch(console.error);
+
+    systemActivity.user = user || null;
+
+    if (!systemActivity) {
       return next({
         status: 404,
         customMessage: "Actividad no encontrada",
@@ -78,7 +86,7 @@ const getSystemActivityById = async (req, res, next) => {
 
     return res.status(200).json({
       customMessage: "Actividad obtenida exitosamente",
-      results: activity,
+      results: systemActivity,
     });
   } catch (error) {
     next(error);
