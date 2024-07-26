@@ -32,7 +32,7 @@ alertRouter.get("/:id", alertController.getAlertById);
 
 alertRouter.post(
   "/",
-  // isLoggedIn,
+  isLoggedIn,
   validateRequestBody(createAlertSchema),
   alertController.createAlert
 );

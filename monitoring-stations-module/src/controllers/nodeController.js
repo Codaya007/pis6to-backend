@@ -2,70 +2,47 @@ const Node = require("../models/Node");
 const mongoose = require("mongoose");
 
 const getAllNodes = async (req, res, next) => {
-<<<<<<< HEAD
  
-  // try {
-  //   const { page = 1, limit = 10, ...where } = req.query;
-
-  //   // const totalCount = await Node.countDocuments(where);
-  //   const data = await Node.find();
-
-  //   res.status(200);
-  //   console.log('NODESSS');
-  //   res.json({
-  //       msg: "OK",
-  //       // totalCount,
-  //       data,
-  //   });
-  // } catch (error) {
-  //     res.status(400);
-  //     res.json({ msg: "Algo salió mal", error: error.message });
-  // }
-  // return res;
-    try {
-=======
   try {
->>>>>>> 142a375c2f52155bc983806a9814d411627a2cc0
-    const { skip, limit, ...where } = req.query;
-    where.deletedAt = null;
+    const { page = 1, limit = 10, ...where } = req.query;
 
-    // Convertir skip y limit a números para asegurar su correcto funcionamiento
-    const skipValue = parseInt(skip) || 0;
-    const limitValue = parseInt(limit) || 10;
+    // const totalCount = await Node.countDocuments(where);
+    const data = await Node.find();
 
-    const totalCount = await Node.countDocuments(where);
-    const nodes = await Node.find(where)
-      .populate("monitoringStation")
-      .skip(skipValue)
-      .limit(limitValue);
-
-    return res.status(200).json({
-      customMessage: "Nodos obtenidos exitosamente",
-      totalCount,
-      results: nodes,
+    res.status(200);
+    console.log('NODESSS');
+    res.json({
+        msg: "OK",
+        // totalCount,
+        data,
     });
   } catch (error) {
-    next(error);
+      res.status(400);
+      res.json({ msg: "Algo salió mal", error: error.message });
   }
-<<<<<<< HEAD
-=======
+  return res;
   //   try {
-  //     const { page = 1, limit = 10, ...where } = req.query;
-  //     // const totalCount = await Node.countDocuments(where);
-  //     const data = await Node.find();
-  //     res.status(200);
-  //     console.log('NODESSS');
-  //     res.json({
-  //         msg: "OK",
-  //         // totalCount,
-  //         data,
-  //     });
+  //   const { skip, limit, ...where } = req.query;
+  //   where.deletedAt = null;
+
+  //   // Convertir skip y limit a números para asegurar su correcto funcionamiento
+  //   const skipValue = parseInt(skip) || 0;
+  //   const limitValue = parseInt(limit) || 10;
+
+  //   const totalCount = await Node.countDocuments(where);
+  //   const nodes = await Node.find(where)
+  //     .populate("monitoringStation")
+  //     .skip(skipValue)
+  //     .limit(limitValue);
+
+  //   return res.status(200).json({
+  //     customMessage: "Nodos obtenidos exitosamente",
+  //     totalCount,
+  //     results: nodes,
+  //   });
   // } catch (error) {
-  //     res.status(400);
-  //     res.json({ msg: "Algo salió mal", error: error.message });
+  //   next(error);
   // }
-  // return res;
->>>>>>> 142a375c2f52155bc983806a9814d411627a2cc0
 };
 
 

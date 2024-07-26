@@ -13,7 +13,7 @@ const validateRequestBody = require("../middlewares/validateRequestBody");
  *  @dec Obtener todas las usuarios
  *  @access Logged
  */
-userRouter.get("/", userController.getAllUsers);
+userRouter.get("/", isLoggedIn, userController.getAllUsers);
 
 /**
  * @route GET /:id
