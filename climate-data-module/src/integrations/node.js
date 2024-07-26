@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { ACTIVE_STATUS_NAME } = require("../constants");
 const { API_BASEURL } = process.env;
 
 const getNodeByCode = async (code = "", bearerToken) => {
@@ -47,7 +48,30 @@ const getNodeById = async (id = "", bearerToken) => {
   }
 };
 
+const getAllActiveNodes = async (bearerToken, monitoringStation) => {
+  try {
+    const url = `${API_BASEURL}/ms2/nodes?status=${ACTIVE_STATUS_NAME}&limit=100`;
+
+    if (monitoringStation) url += `&monitoringStation=${monitoringStation}`;
+
+    const config = {
+      headers: { Authorization: bearerToken },
+    };
+
+    const { data } = await axios.get(url, config);
+
+    if (!data.results) return [];
+
+    return data.results;
+  } catch (error) {
+    console.log(error);
+
+    return [];
+  }
+};
+
 module.exports = {
   getNodeByCode,
   getNodeById,
+  getAllActiveNodes,
 };

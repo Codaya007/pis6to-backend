@@ -1,5 +1,9 @@
 const { ACTIVE_STATUS_NAME } = require("../constants");
-const { getNodeByCode, getNodeById } = require("../integrations/node");
+const {
+  getNodeByCode,
+  getNodeById,
+  getAllActiveNodes,
+} = require("../integrations/node");
 const ClimateData = require("../models/ClimateData");
 const moment = require("moment-timezone");
 
@@ -152,6 +156,34 @@ const getClimateDataByNode = async (req, res, next) => {
   }
 };
 
+const getClimateDataAllNodes = async (req, res, next) => {
+  try {
+    const { monitoringStation } = req.query;
+
+    let nodes = await getAllActiveNodes(
+      req.header("Authorization"),
+      monitoringStation
+    );
+
+    await Promise.all(
+      nodes.map(async (node) => {
+        const lastClimateData = await ClimateData.find({ node: node._id })
+          .sort({ createdAt: -1 })
+          .limit(1);
+
+        node.lastClimateData = lastClimateData[0] || null;
+      })
+    );
+
+    return res.status(200).json({
+      customMessage: "Datos climáticos por nodo",
+      results: nodes,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getClimateDataByMonitoringStation = async (req, res, next) => {
   try {
     const { monitoringStation } = req.params;
@@ -173,4 +205,5 @@ module.exports = {
   getClimateDataByDate,
   getClimateDataByNode,
   getClimateDataByMonitoringStation,
+  getClimateDataAllNodes,
 };
