@@ -56,7 +56,7 @@ const getAllSystemActivities = async (req, res, next) => {
     }
 
     return res.status(200).json({
-      customMessage: "Datos climáticos obtenidos exitosamente",
+      customMessage: "Actividades obtenidos exitosamente",
       totalCount,
       results,
     });
@@ -67,8 +67,18 @@ const getAllSystemActivities = async (req, res, next) => {
 
 const getSystemActivityById = async (req, res, next) => {
   try {
+    const activity = await Researcher.findById(req.params?.id);
+
+    if (!activity) {
+      return next({
+        status: 404,
+        customMessage: "Actividad no encontrada",
+      });
+    }
+
     return res.status(200).json({
-      customMessage: "Mensaje de prueba",
+      customMessage: "Actividad obtenida exitosamente",
+      results: activity,
     });
   } catch (error) {
     next(error);
@@ -77,34 +87,11 @@ const getSystemActivityById = async (req, res, next) => {
 
 const createSystemActivity = async (req, res, next) => {
   try {
-    const { nodeCode, ...systemActivityBody } = req.body;
-
-    const systemActivity = await SystemActivity.create(systemActivityBody);
-
-    const node = await getNodeByCode(nodeCode, req.header("Authorization"));
-
-    // console.log({ node });
-
-    if (node) {
-      systemActivity.node = node._id;
-      systemActivity.monitoringStation = node.monitoringStation;
-      systemActivity.status = node.status;
-
-      //! Emito los datos al canal de socket correspondiente si el nodo está activo
-      if (node.status === ACTIVE_STATUS_NAME) {
-        const io = req.app.get("socketio"); // Obtener la instancia de io desde req.app
-        io.emit(`systemActivityNode${node._id}`, systemActivity);
-        io.emit(
-          `systemActivityMonitoringStation${node.monitoringStation}`,
-          systemActivity
-        );
-      }
-
-      systemActivity.save();
-    }
+    req.body.user = req.user.id;
+    const systemActivity = await SystemActivity.create(req.body);
 
     return res.status(201).json({
-      customMessage: "Data guardad exitosamente",
+      customMessage: "Data guardada exitosamente",
       results: systemActivity,
     });
   } catch (error) {
