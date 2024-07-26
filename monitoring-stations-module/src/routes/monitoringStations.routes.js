@@ -3,9 +3,9 @@ var monitoringstationRouter = express.Router();
 const {
   createMonitoringStationSchema,
   editMonitoringStationSchema,
-} = require("../models/validation-schemas/monitoringstation");
+} = require("../models/validation-schemas/monitoringStation");
 const isLoggedIn = require("../middlewares/isLoggedIn");
-const monitoringstationController = require("../controllers/monitoringstationController");
+const monitoringstationController = require("../controllers/monitoringStationController");
 const validateRequestBody = require("../middlewares/validateRequestBody");
 
 /**
@@ -49,7 +49,7 @@ monitoringstationRouter.post(
 
 monitoringstationRouter.put(
   "/:id",
-  isLoggedIn,
+  // isLoggedIn,
   validateRequestBody(editMonitoringStationSchema),
   monitoringstationController.updateMonitoringStation
 );

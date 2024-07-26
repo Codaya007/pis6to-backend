@@ -22,33 +22,33 @@ const monitoringStationNomenclatureSchema = Joi.object({
 
 const createMonitoringStationSchema = Joi.object({
   name: Joi.string().required().messages({
-    "*": "El campo 'name' es requerido y debe ser una cadena",
+    "*": "El campo 'nombre' es requerido y debe ser una cadena",
   }),
   address: Joi.string().required().messages({
-    "*": "El campo 'address' es requerido y debe ser una cadena",
+    "*": "El campo 'dirección' es requerido y debe ser una cadena",
   }),
   reference: Joi.string().required().messages({
-    "*": "El campo 'reference' es requerido y debe ser una cadena",
+    "*": "El campo 'referencia' es requerido y debe ser una cadena",
   }),
   photos: Joi.array().items(Joi.string()).optional().allow(null).messages({
-    "*": "El campo 'photos' debe ser una lista de cadenas o nulo",
+    "*": "El campo 'fotos' debe ser una lista de cadenas o nulo",
   }),
   coordinate: Joi.array()
-    .items(Joi.number().integer())
+    .items(Joi.number().precision(10))
     .length(2)
     .optional()
     .allow(null)
     .messages({
-      "*": "El campo 'coordinate' debe ser una lista de dos números o nulo [latitud, longitud]",
+      "*": "El campo 'coordenadas' debe ser una lista de dos números o nulo [latitud, longitud]",
     }),
   status: Joi.string()
     .valid(ACTIVE_STATUS_NAME, INACTIVE_STATUS_NAME)
     .default(ACTIVE_STATUS_NAME)
     .messages({
-      "*": `El campo 'status' debe ser '${ACTIVE_STATUS_NAME}' o '${INACTIVE_STATUS_NAME}'`,
+      "*": `El campo 'estado' debe ser '${ACTIVE_STATUS_NAME}' o '${INACTIVE_STATUS_NAME}'`,
     }),
   nomenclature: monitoringStationNomenclatureSchema.required().messages({
-    "*": "El campo 'nomenclature' es requerido y debe seguir la estructura definida",
+    "*": "El campo 'nomenclatura' es requerido y debe seguir la estructura definida",
   }),
 });
 
@@ -57,33 +57,33 @@ const editMonitoringStationSchema = Joi.object({
     "*": "Id no válido",
   }),
   name: Joi.string().optional().messages({
-    "*": "El campo 'name' debe ser una cadena",
+    "*": "El campo 'nombre' debe ser una cadena",
   }),
   address: Joi.string().optional().messages({
-    "*": "El campo 'address' debe ser una cadena",
+    "*": "El campo 'dirección' debe ser una cadena",
   }),
   reference: Joi.string().optional().messages({
-    "*": "El campo 'reference' debe ser una cadena",
+    "*": "El campo 'referencia' debe ser una cadena",
   }),
   photos: Joi.array().items(Joi.string()).optional().allow(null).messages({
-    "*": "El campo 'photos' debe ser una lista de cadenas o nulo",
+    "*": "El campo 'fotos' debe ser una lista de cadenas o nulo",
   }),
   coordinate: Joi.array()
-    .items(Joi.number().integer())
+    .items(Joi.number().precision(10))
     .length(2)
     .optional()
     .allow(null)
     .messages({
-      "*": "El campo 'coordinate' debe ser una lista de dos números o nulo",
+      "*": "El campo 'coordenadas' debe ser una lista de dos números o nulo",
     }),
   status: Joi.string()
     .valid(ACTIVE_STATUS_NAME, INACTIVE_STATUS_NAME)
     .optional()
     .messages({
-      "*": `El campo 'status' debe ser '${ACTIVE_STATUS_NAME}' o '${INACTIVE_STATUS_NAME}'`,
+      "*": `El campo 'estado' debe ser '${ACTIVE_STATUS_NAME}' o '${INACTIVE_STATUS_NAME}'`,
     }),
   nomenclature: monitoringStationNomenclatureSchema.optional().messages({
-    "*": "El campo 'nomenclature' debe seguir la estructura definida",
+    "*": "El campo 'nomenclatura' debe seguir la estructura definida",
   }),
 });
 

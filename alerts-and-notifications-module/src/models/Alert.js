@@ -19,6 +19,7 @@ const alertSchema = new Schema(
     type: {
       type: String,
       enum: ["error", "warn", "success", "info"],
+      required: true,
     },
     node: {
       type: mongoose.Types.ObjectId,
@@ -27,7 +28,7 @@ const alertSchema = new Schema(
     // Marca si ya se resolvió la alerta
     resolved: {
       type: Boolean,
-      default: null,
+      default: false,
     },
     // Cuando se actualiza el campo resolved, se guarda el id del usuario
     resolvedBy: {

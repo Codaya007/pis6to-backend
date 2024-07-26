@@ -25,7 +25,7 @@ const monitoringStationSchema = new Schema(
     },
     coordinate: {
       type: [Number, Number],
-      default: null,
+      required: true,
     },
     status: {
       type: String,

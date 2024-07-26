@@ -26,11 +26,9 @@ const getAllMonitoringStations = async (req, res, next) => {
 
 const getMonitoringStationById = async (req, res, next) => {
   const { id } = req.params;
-
+  console.log(id);
   try {
-    const monitoringstation = await MonitoringStation.findById(id).populate(
-      "node"
-    );
+    const monitoringstation = await MonitoringStation.findById(id);
 
     if (!monitoringstation) {
       return next({
@@ -110,7 +108,7 @@ const createMonitoringStation = async (req, res, next) => {
         customMessage: `Ya existe un estación de monitoreo '${name}'`,
       });
     }
-
+    console.log(body);
     const monitoringstation = await MonitoringStation.create({
       name,
       ...body,

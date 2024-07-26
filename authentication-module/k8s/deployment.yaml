@@ -17,3 +17,5 @@ spec:
           image: pis6toregistrygroup.azurecr.io/authentication:1.0
           ports:
             - containerPort: 4001
+      imagePullSecrets:
+        - name: my-acr-secret

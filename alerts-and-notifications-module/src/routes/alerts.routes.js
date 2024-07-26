@@ -6,6 +6,8 @@ const validateRequestBody = require("../middlewares/validateRequestBody");
 const {
   createAlertSchema,
   editAlertSchema,
+  muteAlert,
+  resolveAlert,
 } = require("../models/validation-schemas/alert");
 
 /**
@@ -30,22 +32,35 @@ alertRouter.get("/:id", alertController.getAlertById);
 
 alertRouter.post(
   "/",
-  isLoggedIn,
+  // isLoggedIn,
   validateRequestBody(createAlertSchema),
   alertController.createAlert
 );
 
 /**
- * @route PUT /:id
- * @desc Actualizar alert por id
+ * @route PUT /resolve/:id
+ * @desc Resolver alerta por id
  * @access Public
  */
 
 alertRouter.put(
-  "/:id",
-  isLoggedIn,
-  validateRequestBody(editAlertSchema),
-  alertController.updateAlert
+  "/resolve/:id",
+  // isLoggedIn,
+  validateRequestBody(resolveAlert),
+  alertController.resolveAlert
 );
+
+/**
+ * @route PUT /mute/:id
+ * @desc Silenciar alerta por id
+ * @access Public
+ */
+
+alertRouter.put(
+  "/mute/:id",
+  // isLoggedIn,
+  validateRequestBody(muteAlert),
+  alertController.muteAlert
+)
 
 module.exports = alertRouter;
