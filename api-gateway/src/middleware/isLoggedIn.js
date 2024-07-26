@@ -5,7 +5,15 @@ const validateToken = require("../helpers/validateToken");
 module.exports = async (req, res, next) => {
   try {
     const bearerToken = req.header("Authorization");
-    console.log("Autenticando en api gateway: ", bearerToken);
+
+    if (!bearerToken) {
+      return res.status(401).json({
+        customMessage: "Sin autenticación presente",
+      });
+    }
+
+    // console.log("Autenticando en api gateway: ", bearerToken);
+
     const user = await validateToken(bearerToken);
     // console.log("Autenticando en api gateway: ", user);
 

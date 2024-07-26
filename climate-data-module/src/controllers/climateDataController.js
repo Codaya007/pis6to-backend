@@ -1,10 +1,74 @@
-const { getNodeByCode } = require("../integrations/node");
+const { getNodeByCode, getNodeById } = require("../integrations/node");
 const ClimateData = require("../models/ClimateData");
+const moment = require("moment-timezone");
 
 const getAllClimateData = async (req, res, next) => {
   try {
+    moment.tz.setDefault("America/Bogota");
+    const {
+      skip,
+      limit,
+      nodeCode,
+      toDate,
+      fromDate,
+      populate = false,
+      ...where
+    } = req.query;
+    where.deletedAt = null;
+
+    // Convertir skip y limit a números para asegurar su correcto funcionamiento
+    const skipValue = parseInt(skip) || 0;
+    const limitValue = parseInt(limit) || 10;
+
+    if (toDate || fromDate) {
+      where.createdAt = {};
+
+      if (fromDate) {
+        where.createdAt["$gte"] = moment(fromDate).toDate();
+      }
+
+      if (toDate) {
+        where.createdAt["$lte"] = moment(toDate).toDate();
+      }
+    }
+
+    if (nodeCode) {
+      const node = await getNodeByCode(nodeCode);
+
+      console.log({ node });
+
+      if (!node) {
+        return res.status(404).json({
+          customMessage: `Nodo ${nodeCode} no encontrado`,
+        });
+      }
+
+      where.node = node._id;
+    }
+
+    const totalCount = await ClimateData.countDocuments(where);
+    let results = await ClimateData.find(where)
+      .skip(skipValue)
+      .limit(limitValue)
+      .sort({ createdAt: -1 });
+
+    if (populate === "true") {
+      results = await Promise.all(
+        results.map(async (climateData) => {
+          climateData = climateData.toJSON();
+          const node = await getNodeById(climateData.node).catch(console.error);
+
+          climateData.node = node || null;
+
+          return climateData;
+        })
+      );
+    }
+
     return res.status(200).json({
-      customMessage: "Mensaje de prueba",
+      customMessage: "Datos climáticos obtenidos exitosamente",
+      totalCount,
+      results,
     });
   } catch (error) {
     next(error);
@@ -37,6 +101,7 @@ const logClimateData = async (req, res, next) => {
       climateData.status = node.status;
 
       // TODO: Añadir envío de datos a socket de climateDataNode{id_nodo} y climateDataMonitoringStation${id_station}
+      // io;
 
       climateData.save();
     }

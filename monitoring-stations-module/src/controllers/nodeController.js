@@ -1,56 +1,61 @@
 const Node = require("../models/Node");
+const mongoose = require("mongoose");
 
 const getAllNodes = async (req, res, next) => {
-  // try {
-  //   const { skip, limit, ...where } = req.query;
-  //   where.deletedAt = null;
-
-  //   // Convertir skip y limit a números para asegurar su correcto funcionamiento
-  //   const skipValue = parseInt(skip) || 0;
-  //   const limitValue = parseInt(limit) || 10;
-
-  //   const totalCount = await Node.countDocuments(where);
-  //   const nodes = await Node.find(where)
-  //     .populate("monitoringStation")
-  //     .skip(skipValue)
-  //     .limit(limitValue);
-
-  //   return res.status(200).json({
-  //     customMessage: "Nodos obtenidos exitosamente",
-  //     totalCount,
-  //     results: nodes,
-  //   });
-  // } catch (error) {
-  //   next(error);
-  // }
   try {
-    const { page = 1, limit = 10, ...where } = req.query;
+    const { skip, limit, ...where } = req.query;
+    where.deletedAt = null;
 
-    // const totalCount = await Node.countDocuments(where);
-    const data = await Node.find();
+    // Convertir skip y limit a números para asegurar su correcto funcionamiento
+    const skipValue = parseInt(skip) || 0;
+    const limitValue = parseInt(limit) || 10;
 
-    res.status(200);
-    console.log('NODESSS');
-    res.json({
-        msg: "OK",
-        // totalCount,
-        data,
+    const totalCount = await Node.countDocuments(where);
+    const nodes = await Node.find(where)
+      .populate("monitoringStation")
+      .skip(skipValue)
+      .limit(limitValue);
+
+    return res.status(200).json({
+      customMessage: "Nodos obtenidos exitosamente",
+      totalCount,
+      results: nodes,
     });
-} catch (error) {
-    res.status(400);
-    res.json({ msg: "Algo salió mal", error: error.message });
-}
-return res;
+  } catch (error) {
+    next(error);
+  }
+  //   try {
+  //     const { page = 1, limit = 10, ...where } = req.query;
+  //     // const totalCount = await Node.countDocuments(where);
+  //     const data = await Node.find();
+  //     res.status(200);
+  //     console.log('NODESSS');
+  //     res.json({
+  //         msg: "OK",
+  //         // totalCount,
+  //         data,
+  //     });
+  // } catch (error) {
+  //     res.status(400);
+  //     res.json({ msg: "Algo salió mal", error: error.message });
+  // }
+  // return res;
 };
 
 const getNodeByParams = async (req, res, next) => {
-  const {id} = req.params;
-  // const _id = new mongoose.Types.ObjectId(id);
-  const code = 'NP001';
-  console.log(code);
+  const { id, code } = req.params;
+  const where = {};
+
+  if (code) where.code = code;
+  if (id) where._id = new mongoose.Types.ObjectId(id);
+
   try {
-    const node = await Node.findOne({code});
-    console.log(node);
+    // console.log({ where });
+
+    const node = await Node.findOne(where).populate("monitoringStation");
+
+    // console.log(node);
+
     if (!node) {
       return next({
         status: 404,
