@@ -23,7 +23,9 @@ const alertSchema = new Schema(
     },
     node: {
       type: mongoose.Types.ObjectId,
+      ref: 'node',
       required: true,
+      
     },
     // Marca si ya se resolvió la alerta
     resolved: {
