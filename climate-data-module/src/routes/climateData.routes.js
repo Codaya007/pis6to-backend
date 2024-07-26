@@ -15,6 +15,13 @@ const validateRequestBody = require("../middlewares/validateRequestBody");
 climateDataRouter.get("/", climateDataController.getAllClimateData);
 
 /**
+ *  @route GET /
+ *  @dec Obtener todos los nodos con su ultimo dato
+ *  @access Public
+ */
+climateDataRouter.get("/nodes", climateDataController.getClimateDataAllNodes);
+
+/**
  * @route GET /:id
  * @desc Obtener climatedata por id
  * @access Public

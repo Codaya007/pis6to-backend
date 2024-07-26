@@ -5,7 +5,16 @@ const validateToken = require("../helpers/validateToken");
 module.exports = async (req, res, next) => {
   try {
     const bearerToken = req.header("Authorization");
-    console.log("Autenticando en api gateway: ", bearerToken);
+    console.log('bearer tokenn ');
+    console.log(bearerToken);
+    if (!bearerToken) { 
+      return res.status(401).json({
+        customMessage: "Sin autenticación presente",
+      });
+    }
+
+    // console.log("Autenticando en api gateway: ", bearerToken);
+
     const user = await validateToken(bearerToken);
     // console.log("Autenticando en api gateway: ", user);
 
@@ -25,6 +34,8 @@ module.exports = async (req, res, next) => {
     // Generar un nuevo JWT para el usuario autenticado
     const jwtPayload = {
       id: user._id,
+      name: user.name,
+      lastname: user.lastname,
       email: user.email,
       roleName: user.role?.name,
     };

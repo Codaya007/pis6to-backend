@@ -1,6 +1,8 @@
 const Node = require("../models/Node");
+const mongoose = require("mongoose");
 
 const getAllNodes = async (req, res, next) => {
+<<<<<<< HEAD
  
   // try {
   //   const { page = 1, limit = 10, ...where } = req.query;
@@ -21,6 +23,9 @@ const getAllNodes = async (req, res, next) => {
   // }
   // return res;
     try {
+=======
+  try {
+>>>>>>> 142a375c2f52155bc983806a9814d411627a2cc0
     const { skip, limit, ...where } = req.query;
     where.deletedAt = null;
 
@@ -42,17 +47,42 @@ const getAllNodes = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+<<<<<<< HEAD
+=======
+  //   try {
+  //     const { page = 1, limit = 10, ...where } = req.query;
+  //     // const totalCount = await Node.countDocuments(where);
+  //     const data = await Node.find();
+  //     res.status(200);
+  //     console.log('NODESSS');
+  //     res.json({
+  //         msg: "OK",
+  //         // totalCount,
+  //         data,
+  //     });
+  // } catch (error) {
+  //     res.status(400);
+  //     res.json({ msg: "Algo salió mal", error: error.message });
+  // }
+  // return res;
+>>>>>>> 142a375c2f52155bc983806a9814d411627a2cc0
 };
 
 
 const getNodeByParams = async (req, res, next) => {
-  const {id} = req.params;
-  // const _id = new mongoose.Types.ObjectId(id);
-  const code = 'NP001';
-  console.log(code);
+  const { id, code } = req.params;
+  const where = {};
+
+  if (code) where.code = code;
+  if (id) where._id = new mongoose.Types.ObjectId(id);
+
   try {
-    const node = await Node.findOne({code});
-    console.log(node);
+    // console.log({ where });
+
+    const node = await Node.findOne(where).populate("monitoringStation");
+
+    // console.log(node);
+
     if (!node) {
       return next({
         status: 404,
