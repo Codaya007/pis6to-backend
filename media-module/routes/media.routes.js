@@ -12,7 +12,7 @@ const mediaRouter = Router();
  */
 mediaRouter.post(
   "/",
-  //   isLoggedIn,
+  isLoggedIn,
   upload.single("file"),
   mediaController.uploadImage
 );
