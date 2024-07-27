@@ -1,4 +1,5 @@
 const { getNodeById } = require("../integrations/node");
+const { getUserById } = require("../integrations/user");
 const Alert = require("../models/Alert");
 
 const getAllAlerts = async (req, res, next) => {
@@ -19,9 +20,20 @@ const getAllAlerts = async (req, res, next) => {
           alert = alert.toJSON();
 
           if (alert.node) {
-            const node = await getNodeById(alert.node);
+            const node = await getNodeById(
+              alert.node,
+              req.header("Authorization")
+            );
 
             alert.node = node;
+          }
+
+          if (alert.resolvedBy) {
+            const user = await getUserById(
+              alert.resolvedBy,
+              req.header("Authorization")
+            );
+            alert.resolvedBy = user;
           }
 
           return alert;
@@ -43,7 +55,19 @@ const getAlertById = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const alert = await Alert.findById(id);
+    let alert = await Alert.findById(id);
+
+    alert = alert.toJSON();
+    const node = await getNodeById(alert.node);
+    alert.node = node;
+
+    if (alert.resolvedBy) {
+      const user = await getUserById(
+        alert.resolvedBy,
+        req.header("Authorization")
+      );
+      alert.resolvedBy = user;
+    }
 
     if (!alert) {
       return next({
@@ -85,7 +109,7 @@ const resolveAlert = async (req, res, next) => {
     }
 
     if (alert.node) {
-      const nodeDB = await getNodeById(alert.node);
+      const nodeDB = await getNodeById(alert.node, req.header("Authorization"));
 
       //! Apagar alerta, enviar actualización por socket
       const io = req.app.get("socketio"); // Obtener la instancia de io desde req.app
@@ -135,7 +159,7 @@ const muteAlert = async (req, res, next) => {
 
       //! Apagar alerta, enviar actualización por socket
       const io = req.app.get("socketio"); // Obtener la instancia de io desde req.app
-      io.emit(`alertNode${node.code}`, { emitSound });
+      io.emit(`alertNode${nodeDB.code}`, { emitSound });
     }
 
     // await Alert.updateOne({ _id: id }, req.body);
@@ -167,7 +191,8 @@ const createAlert = async (req, res, next) => {
 
       //! Apagar alerta, enviar actualización por socket
       const io = req.app.get("socketio"); // Obtener la instancia de io desde req.app
-      io.emit(`alertNode${node._id}`, { emitSound });
+      io.emit(`alertNode${nodeDB.code}`, { emitSound });
+      io.emit(`alertNode`, { emitSound });
     }
 
     return res.status(201).json({
@@ -175,6 +200,8 @@ const createAlert = async (req, res, next) => {
       results: alert,
     });
   } catch (error) {
+    console.log(error);
+
     return next({
       status: 500,
       customMessage: "Error al registrar la alerta",
