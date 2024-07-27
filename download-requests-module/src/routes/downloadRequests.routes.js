@@ -4,17 +4,22 @@ const isLoggedIn = require("../middlewares/isLoggedIn");
 const downloadRequestController = require("../controllers/downloadRequestController");
 const validateRequestBody = require("../middlewares/validateRequestBody");
 const {
-  acceptDownloadRequestSchema,
-  denyDownloadRequestSchema,
   createDownloadRequestSchema,
+  updateDownloadRequestSchema,
 } = require("../models/validation-schemas/downloadRequest");
+const isResearcher = require("../middlewares/isResearcher");
+const isAdmin = require("../middlewares/isAdmin");
 
 /**
  * @route GET /
  * @desc Obtener todas las solicitudes de descarga
  * @access Public
  */
-downloadRequestRouter.get("/", downloadRequestController.getAllDownloadRequest);
+downloadRequestRouter.get(
+  "/",
+  isAdmin,
+  downloadRequestController.getAllDownloadRequest
+);
 
 /**
  * @route GET /:id
@@ -23,6 +28,7 @@ downloadRequestRouter.get("/", downloadRequestController.getAllDownloadRequest);
  */
 downloadRequestRouter.get(
   "/:id",
+  isLoggedIn,
   downloadRequestController.getDownloadRequestById
 );
 
@@ -33,7 +39,7 @@ downloadRequestRouter.get(
  */
 downloadRequestRouter.post(
   "/",
-  isLoggedIn,
+  isResearcher,
   validateRequestBody(createDownloadRequestSchema),
   downloadRequestController.createDownloadRequest
 );
@@ -45,8 +51,8 @@ downloadRequestRouter.post(
  */
 downloadRequestRouter.put(
   "/:id",
-  isLoggedIn,
-  validateRequestBody(acceptDownloadRequestSchema),
+  isAdmin,
+  validateRequestBody(updateDownloadRequestSchema),
   downloadRequestController.updateDownloadRequestStatus
 );
 
@@ -57,7 +63,7 @@ downloadRequestRouter.put(
  */
 downloadRequestRouter.get(
   "/user",
-  isLoggedIn,
+  isResearcher,
   downloadRequestController.getDownloadRequestsByUser
 );
 

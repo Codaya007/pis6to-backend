@@ -2,6 +2,12 @@ const Joi = require("joi");
 const { isValidObjectId } = require("mongoose");
 
 const parameterValueSchema = Joi.object({
+  _id: Joi.string().optional().custom(isValidObjectId).messages({
+    "*": "Id no válido",
+  }),
+  __v: Joi.string().optional().messages({
+    "*": "Id no válido",
+  }),
   displayName: Joi.string().required().messages({
     "*": "El campo 'displayName' es requerido y debe ser una cadena",
   }),

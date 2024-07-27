@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
+const { ADMIN_ROLE_NAME } = require("../constants");
 
-const isLoggedIn = (req, res, next) => {
+const isAdmin = (req, res, next) => {
   const token = req.header("x-auth-token");
 
   if (!token) {
@@ -10,9 +11,16 @@ const isLoggedIn = (req, res, next) => {
   try {
     // Verificar el token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (decoded.roleName !== ADMIN_ROLE_NAME) {
+      return res.status(403).json({
+        customMessage: "No tiene acceso a este recurso",
+      });
+    }
+
     req.user = decoded; // Añadir la información del usuario a la solicitud
 
-    // console.log("Middleware ms, decoded: ", decoded);
+    console.log("Middleware ms: ", req.user);
     next();
   } catch (error) {
     return res.status(401).json({
@@ -22,4 +30,4 @@ const isLoggedIn = (req, res, next) => {
   }
 };
 
-module.exports = isLoggedIn;
+module.exports = isAdmin;

@@ -1,8 +1,9 @@
+const { getNodeById } = require("../integrations/node");
 const Alert = require("../models/Alert");
 
 const getAllAlerts = async (req, res, next) => {
   try {
-    const { skip, limit, ...where } = req.query;
+    const { skip, limit, populate = false, ...where } = req.query;
     where.deletedAt = null;
 
     // Convertir skip y limit a números para asegurar su correcto funcionamiento
@@ -10,7 +11,23 @@ const getAllAlerts = async (req, res, next) => {
     const limitValue = parseInt(limit) || 10;
 
     const totalCount = await Alert.countDocuments(where);
-    const alerts = await Alert.find(where).skip(skipValue).limit(limitValue);
+    let alerts = await Alert.find(where).skip(skipValue).limit(limitValue);
+
+    if (populate === "true") {
+      alerts = await Promise.all(
+        alerts.map(async (alert) => {
+          alert = alert.toJSON();
+
+          if (alert.node) {
+            const node = await getNodeById(alert.node);
+
+            alert.node = node;
+          }
+
+          return alert;
+        })
+      );
+    }
 
     return res.status(200).json({
       customMessage: "Alertas obtenidos exitosamente",
@@ -67,9 +84,13 @@ const resolveAlert = async (req, res, next) => {
       });
     }
 
-    //! Apagar alerta, enviar actualización por socket
-    const io = req.app.get("socketio"); // Obtener la instancia de io desde req.app
-    io.emit(`alertNode${node._id}`, { emitSound });
+    if (alert.node) {
+      const nodeDB = await getNodeById(alert.node);
+
+      //! Apagar alerta, enviar actualización por socket
+      const io = req.app.get("socketio"); // Obtener la instancia de io desde req.app
+      io.emit(`alertNode${nodeDB.code}`, { emitSound });
+    }
 
     const resultado = await Alert.findByIdAndUpdate(
       id,
@@ -109,8 +130,13 @@ const muteAlert = async (req, res, next) => {
     }
 
     //! Apagar alerta, enviar actualización por socket
-    const io = req.app.get("socketio"); // Obtener la instancia de io desde req.app
-    io.emit(`alertNode${node._id}`, { emitSound });
+    if (alert.node) {
+      const nodeDB = await getNodeById(alert.node);
+
+      //! Apagar alerta, enviar actualización por socket
+      const io = req.app.get("socketio"); // Obtener la instancia de io desde req.app
+      io.emit(`alertNode${node.code}`, { emitSound });
+    }
 
     // await Alert.updateOne({ _id: id }, req.body);
     const resultado = await Alert.findByIdAndUpdate(
@@ -136,8 +162,13 @@ const createAlert = async (req, res, next) => {
     const alert = await Alert.create(req.body);
 
     //! Encender alerta, enviar actualización por socket
-    const io = req.app.get("socketio"); // Obtener la instancia de io desde req.app
-    io.emit(`alertNode${node._id}`, { emitSound });
+    if (alert.node) {
+      const nodeDB = await getNodeById(alert.node);
+
+      //! Apagar alerta, enviar actualización por socket
+      const io = req.app.get("socketio"); // Obtener la instancia de io desde req.app
+      io.emit(`alertNode${node._id}`, { emitSound });
+    }
 
     return res.status(201).json({
       customMessage: "Alerta registrada exitosamente",
