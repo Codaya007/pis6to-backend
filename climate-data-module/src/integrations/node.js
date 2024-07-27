@@ -9,11 +9,11 @@ const getNodeByCode = async (code = "", bearerToken) => {
       headers: { Authorization: bearerToken },
     };
 
-    console.log(url, config);
+    // console.log(url, config);
 
     const { data } = await axios.get(url, config);
 
-    console.log(data);
+    // console.log(data);
 
     if (!data.results) return null;
 
@@ -32,11 +32,11 @@ const getNodeById = async (id = "", bearerToken) => {
       headers: { Authorization: bearerToken },
     };
 
-    console.log(url, config);
+    // console.log(url, config);
 
     const { data } = await axios.get(url, config);
 
-    console.log(data);
+    // console.log(data);
 
     if (!data.results) return null;
 

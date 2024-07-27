@@ -111,7 +111,7 @@ const logClimateData = async (req, res, next) => {
         io.emit(`climateData`, climateData);
         io.emit(`climateDataNode${node._id}`, climateData);
         io.emit(
-          `climateDataMonitoringStation${node.monitoringStation}`,
+          `climateDataMonitoringStation${node.monitoringStation?._id}`,
           climateData
         );
       }
