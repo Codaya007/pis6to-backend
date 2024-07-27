@@ -55,7 +55,7 @@ const publicRoutes = [
     methods: ["GET"],
   },
   // { path: "/ms8/media/*", methods: ["POST"] },
-  { path: "/ms4/*", methods: ["POST", "GET", "PUT", "DELETE"] },
+  // { path: "/ms4/*", methods: ["POST"] },
 ];
 
 app.use((req, res, next) => {
