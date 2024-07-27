@@ -18,6 +18,8 @@ app.use(express.json());
 const server = http.createServer(app);
 const io = new SocketServer(server, {
   cors: { origin: "*" },
+  transports: ["websocket"], // puedes especificar transportes
+  allowEIO3: true, // permitir versiones antiguas de Engine.IO si es necesario
 });
 
 // Almacenar la instancia de io en app para que sea accesible en los controladores
@@ -28,6 +30,7 @@ io.use(async (socket, next) => {
   // } else {
   //   next();
   // }
+  console.log("USO", socket);
   next();
 });
 
@@ -52,5 +55,7 @@ app.use("/", indexRouter);
 
 app.use(notFound);
 app.use(errorHandler);
+
+io.listen(5000);
 
 module.exports = app;

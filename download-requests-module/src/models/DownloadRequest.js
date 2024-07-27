@@ -8,6 +8,10 @@ const {
 
 const DownloadRequestSchema = new Schema(
   {
+    downloadType: {
+      type: String,
+      isIn: ["Alertas", "Datos Climáticos"],
+    },
     researcher: {
       type: Schema.Types.ObjectId,
       required: true,

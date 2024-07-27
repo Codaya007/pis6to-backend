@@ -5,24 +5,25 @@ const alertController = require("../controllers/alertController");
 const validateRequestBody = require("../middlewares/validateRequestBody");
 const {
   createAlertSchema,
-  editAlertSchema,
+  // editAlertSchema,
   muteAlert,
   resolveAlert,
 } = require("../models/validation-schemas/alert");
+const isAdmin = require("../middlewares/isAdmin");
 
 /**
  *  @route GET /
  *  @dec Obtener todos los nodos
  *  @access Public
  */
-alertRouter.get("/", alertController.getAllAlerts);
+alertRouter.get("/", isAdmin, alertController.getAllAlerts);
 
 /**
  * @route GET /:id
  * @desc Obtener nodo por id
  * @access Public
  */
-alertRouter.get("/:id", alertController.getAlertById);
+alertRouter.get("/:id", isAdmin, alertController.getAlertById);
 
 /**
  * @route POST/
@@ -45,7 +46,7 @@ alertRouter.post(
 
 alertRouter.put(
   "/resolve/:id",
-  isLoggedIn,
+  isAdmin,
   validateRequestBody(resolveAlert),
   alertController.resolveAlert
 );
@@ -58,9 +59,9 @@ alertRouter.put(
 
 alertRouter.put(
   "/mute/:id",
-  isLoggedIn,
+  isAdmin,
   validateRequestBody(muteAlert),
   alertController.muteAlert
-)
+);
 
 module.exports = alertRouter;

@@ -1,3 +1,5 @@
+const { PENDING_DOWNLOAD_REQUEST_STATUS } = require("../constants");
+const { getResearcherById } = require("../integrations/researcher");
 const DownloadRequest = require("../models/DownloadRequest");
 
 // Obtener todas las solicitudes de descarga con filtro por tipo de solicitud
@@ -10,7 +12,23 @@ const getAllDownloadRequest = async (req, res, next) => {
       filter.requestType = type;
     }
 
-    const downloadRequests = await DownloadRequest.find(filter);
+    let downloadRequests = await DownloadRequest.find(filter);
+
+    downloadRequests = await Promise.all(
+      downloadRequests.map(async (downloadReq) => {
+        downloadReq = downloadReq.toJSON();
+
+        const researcher = await getResearcherById(
+          downloadReq.researcher,
+          req.header("Authorization")
+        );
+
+        downloadReq.researcher = researcher;
+
+        return downloadReq;
+      })
+    );
+
     return res.status(200).json({
       customMessage: "Listado de solicitudes de descarga",
       results: downloadRequests,
@@ -25,11 +43,22 @@ const getDownloadRequestById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const downloadRequest = await DownloadRequest.findById(id);
+
+    downloadRequest = downloadReq.toJSON();
+
+    const researcher = await getResearcherById(
+      downloadRequest.researcher,
+      req.header("Authorization")
+    );
+
+    downloadRequest.researcher = researcher;
+
     if (!downloadRequest) {
       return res.status(404).json({
         customMessage: "Solicitud no encontrada",
       });
     }
+
     return res.status(200).json({
       customMessage: "Solicitud de descarga",
       results: downloadRequest,
@@ -75,25 +104,30 @@ const updateDownloadRequestStatus = async (req, res, next) => {
 // Crear una nueva solicitud de descarga (solo para investigadores)
 const createDownloadRequest = async (req, res, next) => {
   try {
-    const { userType } = req.user;
-    if (userType !== "investigator") {
-      return res.status(403).json({
-        customMessage: "No autorizado para crear una solicitud de descarga",
-      });
-    }
+    // const { userType } = req.user;
+    // if (userType !== "investigator") {
+    //   return res.status(403).json({
+    //     customMessage: "No autorizado para crear una solicitud de descarga",
+    //   });
+    // }
 
-    const { startDate, endDate, downloadType } = req.body;
+    const { researcher } = req.body;
 
-    if (!startDate || !endDate || !downloadType) {
+    const researcherDB = await getResearcherById(
+      researcher,
+      req.header("Authorization")
+    );
+
+    if (!researcherDB) {
       return res.status(400).json({
-        customMessage: "Faltan campos requeridos: rango de fechas y tipo de descarga",
+        customMessage: "El id de investigador no es válido",
       });
     }
 
     const newRequest = new DownloadRequest({
       ...req.body,
-      status: "pending",
-      user: req.user.userId,
+      status: PENDING_DOWNLOAD_REQUEST_STATUS,
+      researcher,
     });
 
     await newRequest.save();
@@ -110,8 +144,9 @@ const createDownloadRequest = async (req, res, next) => {
 // Obtener solicitudes de descarga para el usuario logueado
 const getDownloadRequestsByUser = async (req, res, next) => {
   try {
-    const { userId } = req.user;
-    const downloadRequests = await DownloadRequest.find({ user: userId });
+    const user = req.user.id;
+    const downloadRequests = await DownloadRequest.find({ user });
+
     return res.status(200).json({
       customMessage: "Solicitudes de descarga del usuario logueado",
       results: downloadRequests,
