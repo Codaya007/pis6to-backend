@@ -60,13 +60,13 @@ spec:
           #       name: monitoringstations
           #       port:
           #         number: 80
-          - path: /sockets
-            pathType: Prefix
-            backend:
-              service:
-                name: sockets
-                port:
-                  number: 80
+          # - path: /sockets
+          #   pathType: Prefix
+          #   backend:
+          #     service:
+          #       name: sockets
+          #       port:
+          #         number: 80
           - path: /systemactivities
             pathType: Prefix
             backend:

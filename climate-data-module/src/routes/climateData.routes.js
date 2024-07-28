@@ -36,7 +36,7 @@ climateDataRouter.get("/:id", climateDataController.getClimateDataById);
 
 climateDataRouter.post(
   "/",
-  isLoggedIn,
+  // isLoggedIn,
   validateRequestBody(createClimateDataSchema),
   climateDataController.logClimateData
 );

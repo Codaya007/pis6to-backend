@@ -44,6 +44,10 @@ const publicRoutes = [
     methods: ["GET"],
   },
   {
+    path: "/ms3/climate-datas",
+    methods: ["POST"],
+  },
+  {
     path: "/ms2/nodes/code/*",
     methods: ["GET"],
   },

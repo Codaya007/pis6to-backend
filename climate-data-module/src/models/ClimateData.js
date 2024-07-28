@@ -45,6 +45,14 @@ const climateDataSchema = new Schema(
 
 climateDataSchema.plugin(softDeletePlugin);
 
+climateDataSchema.set("toJSON", {
+  transform: (doc, ret) => {
+    doc.temp = parseFloat(doc.temp).toFixed(2);
+    doc.hum = parseFloat(doc.hum).toFixed(2);
+    doc.co2 = parseFloat(doc.co2).toFixed(2);
+  },
+});
+
 const climateData = mongoose.model("climatedatas", climateDataSchema);
 
 module.exports = climateData;
