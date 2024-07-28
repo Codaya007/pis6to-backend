@@ -51,6 +51,14 @@ const updateSensor = async (req, res, next) => {
   const { id } = req.params;
 
   try {
+    const existingSensor = await Sensor.findOne({ code: req.body.code });
+
+    if (existingSensor && existingSensor._id != id) {
+      return res.status(400).json({
+        customMessage: "El código ya está en uso. Cambielo.",
+      });
+    }
+
     const sensor = await Sensor.findById(id).populate("node");
 
     if (!sensor) {
