@@ -29,7 +29,8 @@ const getAllUsers = async (req, res, next) => {
     const users = await User.find(where)
       .populate("role")
       .skip(skipValue)
-      .limit(limitValue);
+      .limit(limitValue)
+      .sort({ createdAt: -1 });
 
     return res.status(200).json({
       customMessage: "Usuarios obtenidos exitosamente",

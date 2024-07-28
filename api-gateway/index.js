@@ -59,6 +59,10 @@ const publicRoutes = [
     path: "/socket.io/*",
     methods: ["GET"],
   },
+  {
+    path: "/ms4/alerts/node-status/*",
+    methods: ["GET"],
+  },
   // { path: "/ms8/media/*", methods: ["POST"] },
   // { path: "/ms4/*", methods: ["POST", "GET", "PUT", "DELETE"] },
 ];

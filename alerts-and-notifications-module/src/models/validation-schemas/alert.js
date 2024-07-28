@@ -64,12 +64,6 @@ const resolveAlert = Joi.object({
   id: Joi.string().required().custom(isValidObjectId).messages({
     "*": "Id no válido",
   }),
-  resolved: Joi.boolean().required().messages({
-    "*": "El campo 'resolvido' es requrido y debe ser un Boolean",
-  }),
-  resolvedBy: Joi.string().required().custom(isValidObjectId).messages({
-    "*": "El campo 'resuelto por' es requerido y debe ser de tipo ObjectId",
-  }),
   appliedActions: Joi.string().messages({
     "*": "El campo 'resolvedComment' debe ser un string y es requerido",
   }),

@@ -14,7 +14,9 @@ const getAllSensors = async (req, res, next) => {
     const sensors = await Sensor.find(where)
       .populate("node")
       .skip(skipValue)
-      .limit(limitValue);
+      .limit(limitValue)
+      .sort({ createdAt: -1 });
+
     return res.status(200).json({
       customMessage: "Sensores obtenidos exitosamente",
       totalCount,
@@ -133,36 +135,36 @@ const getSensorTypes = (req, res) => {
   return res.json(ALLOWED_SENSORS);
 };
 
-const getSensorsByMonitoringStation = async (req, res) =>{
+const getSensorsByMonitoringStation = async (req, res) => {
   try {
-    const { page = 1, limit = 10, id} = req.query;
-    if(!id){
+    const { page = 1, limit = 10, id } = req.query;
+    if (!id) {
       return res.status(400).json({
-        msg: 'ID de la estacion de monitoreo requerido'
+        msg: "ID de la estacion de monitoreo requerido",
       });
     }
-    const nodes = await Node.find({ monitoringStation:id}); //Revisar
-    const nodeIds = nodes.map(node => node._id);
+    const nodes = await Node.find({ monitoringStation: id }); //Revisar
+    const nodeIds = nodes.map((node) => node._id);
     const totalCount = await Sensor.countDocuments({ node: { $in: nodeIds } });
     const data = await Sensor.find({ node: { $in: nodeIds } })
       .skip((parseInt(page) - 1) * limit)
       .limit(limit)
       .exec();
     res.status(200).json({
-      msg: 'OK',
+      msg: "OK",
       totalCount,
       data,
     });
-  }catch(error){
+  } catch (error) {
     next(error);
   }
-}
-const getSensorsByNode = async (req, res) =>{
+};
+const getSensorsByNode = async (req, res) => {
   try {
-    const { page = 1, limit = 10, id} = req.query;
-    if(!id){
+    const { page = 1, limit = 10, id } = req.query;
+    if (!id) {
       return res.status(400).json({
-        msg: 'ID del nodo requerido'
+        msg: "ID del nodo requerido",
       });
     }
     const totalCount = await Sensor.countDocuments({ node: id });
@@ -172,14 +174,14 @@ const getSensorsByNode = async (req, res) =>{
       .exec();
 
     res.status(200).json({
-      msg: 'OK',
+      msg: "OK",
       totalCount,
       data,
     });
-  }catch(error){
+  } catch (error) {
     next(error);
   }
-}
+};
 
 module.exports = {
   getAllSensors,
@@ -189,5 +191,5 @@ module.exports = {
   deleteSensor,
   getSensorTypes,
   getSensorsByMonitoringStation,
-  getSensorsByNode
+  getSensorsByNode,
 };

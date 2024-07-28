@@ -12,7 +12,7 @@ const getAllAlerts = async (req, res, next) => {
     const limitValue = parseInt(limit) || 10;
 
     const totalCount = await Alert.countDocuments(where);
-    let alerts = await Alert.find(where).skip(skipValue).limit(limitValue);
+    let alerts = await Alert.find(where).skip(skipValue).limit(limitValue).sort({createdAt: -1});
 
     if (populate === "true") {
       alerts = await Promise.all(

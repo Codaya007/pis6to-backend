@@ -12,7 +12,9 @@ const getAllDownloadRequest = async (req, res, next) => {
       filter.requestType = type;
     }
 
-    let downloadRequests = await DownloadRequest.find(filter);
+    let downloadRequests = await DownloadRequest.find(filter).sort({
+      createdAt: -1,
+    });
 
     downloadRequests = await Promise.all(
       downloadRequests.map(async (downloadReq) => {
@@ -145,7 +147,9 @@ const createDownloadRequest = async (req, res, next) => {
 const getDownloadRequestsByUser = async (req, res, next) => {
   try {
     const user = req.user.id;
-    const downloadRequests = await DownloadRequest.find({ user });
+    const downloadRequests = await DownloadRequest.find({ user }).sort({
+      createdAt: -1,
+    });
 
     return res.status(200).json({
       customMessage: "Solicitudes de descarga del usuario logueado",

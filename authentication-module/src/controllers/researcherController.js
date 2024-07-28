@@ -25,7 +25,8 @@ const getAllResearchers = async (req, res, next) => {
         },
       })
       .skip(skipValue)
-      .limit(limitValue);
+      .limit(limitValue)
+      .sort({ createdAt: -1 });
 
     return res.status(200).json({
       customMessage: "Investigadores obtenidos exitosamente",
