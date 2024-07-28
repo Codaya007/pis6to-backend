@@ -3,7 +3,7 @@ var limitsConfigRouter = express.Router();
 const {
   createLimitsConfigSchema,
   editLimitsConfigSchema,
-} = require("../models/validation-schemas/limitsConfig");
+} = require("../models/validation-schemas/limitsConfig.js");
 const isLoggedIn = require("../middlewares/isLoggedIn");
 const limitsconfigController = require("../controllers/limitsConfigController");
 const validateRequestBody = require("../middlewares/validateRequestBody");

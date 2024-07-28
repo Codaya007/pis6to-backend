@@ -47,9 +47,9 @@ kubectl apply -f ./media-module/k8s/deployment.yaml
 kubectl apply -f ./media-module/k8s/service.yaml
 
 # monitoring-stations-module
-docker build -t monitoringstations:1.0 ./monitoring-stations-module/
-docker tag monitoringstations:1.0 pis6toregistrygroup.azurecr.io/monitoringstations:1.0
-docker push pis6toregistrygroup.azurecr.io/monitoringstations:1.0
+docker build -t monitoringstations:2.0 ./monitoring-stations-module/
+docker tag monitoringstations:2.0 pis6toregistrygroup.azurecr.io/monitoringstations:2.0
+docker push pis6toregistrygroup.azurecr.io/monitoringstations:2.0
 
 kubectl apply -f ./monitoring-stations-module/k8s/deployment.yaml
 kubectl apply -f ./monitoring-stations-module/k8s/service.yaml
