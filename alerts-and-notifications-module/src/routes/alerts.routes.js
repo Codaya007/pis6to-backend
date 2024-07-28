@@ -26,6 +26,13 @@ alertRouter.get("/", isAdmin, alertController.getAllAlerts);
 alertRouter.get("/:id", isAdmin, alertController.getAlertById);
 
 /**
+ * @route GET /:id
+ * @desc Obtener status del nodo
+ * @access Public
+ */
+alertRouter.get("/node-status/:nodeCode", alertController.getNodeAlertState);
+
+/**
  * @route POST/
  * @desc Crear nodo
  * @access Admin

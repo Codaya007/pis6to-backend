@@ -1,4 +1,4 @@
-const { getNodeById } = require("../integrations/node");
+const { getNodeById, getNodeByCode } = require("../integrations/node");
 const { getUserById } = require("../integrations/user");
 const Alert = require("../models/Alert");
 
@@ -108,14 +108,6 @@ const resolveAlert = async (req, res, next) => {
       });
     }
 
-    if (alert.node) {
-      const nodeDB = await getNodeById(alert.node, req.header("Authorization"));
-
-      //! Apagar alerta, enviar actualización por socket
-      const io = req.app.get("socketio"); // Obtener la instancia de io desde req.app
-      io.emit(`alertNode${nodeDB.code}`, { emitSound });
-    }
-
     const resultado = await Alert.findByIdAndUpdate(
       id,
       {
@@ -129,6 +121,14 @@ const resolveAlert = async (req, res, next) => {
       },
       { new: true } // Opcional: devuelve el documento actualizado
     );
+
+    if (alert.node) {
+      const nodeDB = await getNodeById(alert.node, req.header("Authorization"));
+
+      //! Apagar alerta, enviar actualización por socket
+      const io = req.app.get("socketio"); // Obtener la instancia de io desde req.app
+      io.emit(`alertNode${nodeDB.code}`, { emitSound });
+    }
 
     return res.status(200).json({
       customMessage: "Alerta actualizada exitosamente",
@@ -153,6 +153,13 @@ const muteAlert = async (req, res, next) => {
       });
     }
 
+    // await Alert.updateOne({ _id: id }, req.body);
+    const resultado = await Alert.findByIdAndUpdate(
+      id,
+      { $set: { emitSound } },
+      { new: true } // Opcional: devuelve el documento actualizado
+    );
+
     //! Apagar alerta, enviar actualización por socket
     if (alert.node) {
       const nodeDB = await getNodeById(alert.node);
@@ -161,13 +168,6 @@ const muteAlert = async (req, res, next) => {
       const io = req.app.get("socketio"); // Obtener la instancia de io desde req.app
       io.emit(`alertNode${nodeDB.code}`, { emitSound });
     }
-
-    // await Alert.updateOne({ _id: id }, req.body);
-    const resultado = await Alert.findByIdAndUpdate(
-      id,
-      { $set: { emitSound } },
-      { new: true } // Opcional: devuelve el documento actualizado
-    );
 
     return res.status(200).json({
       customMessage: "Alerta actualizada exitosamente",
@@ -210,10 +210,50 @@ const createAlert = async (req, res, next) => {
   }
 };
 
+const getNodeAlertState = async (req, res, next) => {
+  try {
+    const { nodeCode } = req.params;
+
+    const nodeDB = await getNodeByCode(nodeCode);
+
+    if (nodeDB) {
+      const alertsActive = await Alert.countDocuments({
+        node: nodeDB._id,
+        deletedAt: null,
+        emitSound: true,
+        resolved: false,
+      });
+
+      if (alertsActive) {
+        return res.status(200).json({
+          emitSound: true,
+        });
+      } else {
+        return res.status(200).json({
+          emitSound: false,
+        });
+      }
+    }
+
+    return res.status(200).json({
+      emitSound: false,
+    });
+  } catch (error) {
+    console.log(error);
+
+    return next({
+      status: 500,
+      customMessage: "Error al registrar la alerta",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   getAllAlerts,
   getAlertById,
   createAlert,
   muteAlert,
   resolveAlert,
+  getNodeAlertState,
 };
