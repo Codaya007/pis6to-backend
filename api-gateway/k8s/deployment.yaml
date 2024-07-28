@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: pis6toregistrygroup.azurecr.io/api-gateway:1.0
+          image: pis6toregistrygroup.azurecr.io/api-gateway:3.0
+          imagePullPolicy: Always
           ports:
             - containerPort: 4000
           env:

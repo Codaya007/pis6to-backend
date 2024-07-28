@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
         - name: climatedata
-          image: pis6toregistrygroup.azurecr.io/climatedata:1.0
+          image: pis6toregistrygroup.azurecr.io/climatedata:3.0
+          imagePullPolicy: Always
           ports:
             - containerPort: 4003
       imagePullSecrets:

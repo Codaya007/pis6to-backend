@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
         - name: alertsandnotifications
-          image: pis6toregistrygroup.azurecr.io/alertsandnotifications:1.0
+          image: pis6toregistrygroup.azurecr.io/alertsandnotifications:3.0
+          imagePullPolicy: Always
           ports:
             - containerPort: 4004
       imagePullSecrets:
