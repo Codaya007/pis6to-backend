@@ -1,0 +1,64 @@
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - authentication-module/*
+
+variables:
+  - name: AKS_RESOURCE_GROUP
+    value: "pis6to"
+  - name: AKS_CLUSTER_NAME
+    value: "api-pis6to"
+  - name: ACR_NAME
+    value: "pis6toregistrygroup"
+
+pool:
+  name: Default # O el nombre de tu pool de agentes
+  demands:
+    - agent.name -equals viviagent
+
+steps:
+  - task: UseDotNet@2
+    inputs:
+      packageType: "sdk"
+      version: "5.x"
+      installationPath: $(Agent.ToolsDirectory)/dotnet
+
+  - task: Docker@2
+    inputs:
+      command: buildAndPush
+      repository: $(ACR_NAME).azurecr.io/authentication
+      Dockerfile: authentication-module/Dockerfile
+      containerRegistry: "acr-access"
+      tags: |
+        $(Build.BuildId)
+
+  - task: Kubernetes@1
+    inputs:
+      connectionType: "Azure Resource Manager"
+      azureResourceGroup: $(AKS_RESOURCE_GROUP)
+      kubernetesCluster: $(AKS_CLUSTER_NAME)
+      command: "apply"
+      useConfigurationFile: true
+      configuration: "authentication-module/k8s/deployment.yaml"
+      secretType: "dockerRegistry"
+      containerRegistryType: "Azure Container Registry"
+      dockerRegistryEndpoint: "acr-access"
+      secretName: "my-acr-secret"
+      namespace: "default"
+
+  - task: Kubernetes@1
+    inputs:
+      connectionType: "Azure Resource Manager"
+      azureResourceGroup: $(AKS_RESOURCE_GROUP)
+      kubernetesCluster: $(AKS_CLUSTER_NAME)
+      command: "apply"
+      useConfigurationFile: true
+      configuration: "authentication-module/k8s/service.yaml"
+      secretType: "dockerRegistry"
+      containerRegistryType: "Azure Container Registry"
+      dockerRegistryEndpoint: "acr-access"
+      secretName: "my-acr-secret"
+      namespace: "default"
