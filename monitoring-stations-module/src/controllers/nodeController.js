@@ -4,11 +4,15 @@ const mongoose = require("mongoose");
 const getAllNodes = async (req, res, next) => {
  
   try {
-    const { page = 1, limit = 10, ...where } = req.query;
-
+    const { skip = 1, limit = 10, ...where } = req.query;
+    where.deletedAt = null;
+    const skipValue = parseInt(skip) || 0;
+    const limitValue = parseInt(limit) || 10;
     // const totalCount = await Node.countDocuments(where);
-    const data = await Node.find();
-
+    const data = await Node.find(where)
+    .skip(skipValue)
+    .limit(limitValue);
+    console.log(data);
     res.status(200);
     console.log('NODESSS');
     res.json({

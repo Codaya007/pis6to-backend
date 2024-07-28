@@ -33,6 +33,7 @@ const nodeSchema = new Schema(
     monitoringStation: {
       type: mongoose.Types.ObjectId,
       ref: "monitoringstations",
+      req: true
     },
   },
   {
