@@ -34,6 +34,7 @@ const publicRoutes = [
   { path: "/ms1/auth/*", methods: ["POST"] },
   // { path: "/ms1/researchers", methods: ["POST"] },
   // Eliminar direccion publica de monitoring stations
+
   {
     path: "/ms2/monitoring-stations",
     methods: ["GET"],
@@ -55,7 +56,7 @@ const publicRoutes = [
     methods: ["GET"],
   },
   // { path: "/ms8/media/*", methods: ["POST"] },
-  // { path: "/ms4/*", methods: ["POST"] },
+  // { path: "/ms4/*", methods: ["POST", "GET", "PUT", "DELETE"] },
 ];
 
 app.use((req, res, next) => {

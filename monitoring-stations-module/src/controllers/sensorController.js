@@ -15,7 +15,6 @@ const getAllSensors = async (req, res, next) => {
       .populate("node")
       .skip(skipValue)
       .limit(limitValue);
-
     return res.status(200).json({
       customMessage: "Sensores obtenidos exitosamente",
       totalCount,
@@ -52,6 +51,14 @@ const updateSensor = async (req, res, next) => {
   const { id } = req.params;
 
   try {
+    const existingSensor = await Sensor.findOne({ code: req.body.code });
+
+    if (existingSensor && existingSensor._id != id) {
+      return res.status(400).json({
+        customMessage: "El código ya está en uso. Cambielo.",
+      });
+    }
+
     const sensor = await Sensor.findById(id).populate("node");
 
     if (!sensor) {
@@ -97,6 +104,16 @@ const deleteSensor = async (req, res, next) => {
 
 const createSensor = async (req, res, next) => {
   try {
+    // Verificar si el código ya existe en la base de datos
+    const existingSensor = await Sensor.findOne({ code: req.body.code });
+
+    if (existingSensor) {
+      return res.status(400).json({
+        customMessage: "El código ya está en uso. Cambielo.",
+      });
+    }
+
+    // Crear el sensor si el código es único
     const sensor = await Sensor.create(req.body);
 
     return res.status(201).json({
@@ -107,7 +124,7 @@ const createSensor = async (req, res, next) => {
     return next({
       status: 500,
       customMessage: "Error al registrar sensor",
-      error: error.message,
+      error: error,
     });
   }
 };

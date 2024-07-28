@@ -16,7 +16,7 @@ const sensorSchema = new Schema(
     },
     node: {
       type: mongoose.Types.ObjectId,
-      ref: "nodes",
+      ref: "Node",
     },
     code: {
       type: String,
