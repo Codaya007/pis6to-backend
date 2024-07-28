@@ -53,13 +53,13 @@ spec:
                 name: media
                 port:
                   number: 80
-          # - path: /monitoringstations
-          #   pathType: Prefix
-          #   backend:
-          #     service:
-          #       name: monitoringstations
-          #       port:
-          #         number: 80
+          - path: /monitoringstations
+            pathType: Prefix
+            backend:
+              service:
+                name: monitoringstations
+                port:
+                  number: 80
           # - path: /sockets
           #   pathType: Prefix
           #   backend:
