@@ -10,8 +10,8 @@ const validateToken = async (tokenReceived) => {
   if (!token) {
     throw new CustomError("No existe token", null, 404);
   }
-  console.log('okennn');
-  console.log(token);
+  // console.log('okennn');
+  // console.log(token);
   const decoded = jwt.verify(token, JWT_SECRET);
   const _id = decoded.id;
   const user = await User.findOne({ _id, deletedAt: null }).populate("role");

@@ -7,13 +7,18 @@ const {
 const isLoggedIn = require("../middlewares/isLoggedIn");
 const systemActivityController = require("../controllers/systemActivityController");
 const validateRequestBody = require("../middlewares/validateRequestBody");
+const isAdmin = require("../middlewares/isAdmin");
 
 /**
  *  @route GET /
  *  @dec Obtener todos los systemactivityes
  *  @access Public
  */
-systemActivityRouter.get("/", systemActivityController.getAllSystemActivities);
+systemActivityRouter.get(
+  "/",
+  isAdmin,
+  systemActivityController.getAllSystemActivities
+);
 
 /**
  * @route GET /:id
@@ -22,6 +27,7 @@ systemActivityRouter.get("/", systemActivityController.getAllSystemActivities);
  */
 systemActivityRouter.get(
   "/:id",
+  isAdmin,
   systemActivityController.getSystemActivityById
 );
 
@@ -33,7 +39,7 @@ systemActivityRouter.get(
 
 systemActivityRouter.post(
   "/",
-  isLoggedIn,
+  // isLoggedIn,
   validateRequestBody(createSystemActivitySchema),
   systemActivityController.createSystemActivity
 );

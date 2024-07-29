@@ -20,7 +20,7 @@ const isAdmin = (req, res, next) => {
 
     req.user = decoded; // Añadir la información del usuario a la solicitud
 
-    console.log("Middleware ms: ", req.user);
+    // console.log("Middleware ms: ", req.user);
     next();
   } catch (error) {
     return res.status(401).json({

@@ -95,7 +95,7 @@ const getSystemActivityById = async (req, res, next) => {
 
 const createSystemActivity = async (req, res, next) => {
   try {
-    req.body.user = req.user.id;
+    // req.body.user = req.user.id;
     const systemActivity = await SystemActivity.create(req.body);
 
     return res.status(201).json({

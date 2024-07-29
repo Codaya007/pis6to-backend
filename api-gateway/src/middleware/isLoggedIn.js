@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { BLOQUED_USER_STATUS } = require("../constants");
 const validateToken = require("../helpers/validateToken");
+const { createActivity } = require("../integrations/activity");
 
 module.exports = async (req, res, next) => {
   try {
@@ -48,6 +49,15 @@ module.exports = async (req, res, next) => {
     req.headers["x-auth-token"] = jwtToken;
 
     req.user = user;
+
+    if (req.method !== "GET") {
+      createActivity({
+        type: req.method,
+        route: req.path,
+        body: req.body || {},
+        user: user._id,
+      }).catch(console.error);
+    }
 
     return next();
   } catch (error) {

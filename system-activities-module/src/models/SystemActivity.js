@@ -10,7 +10,7 @@ const systemactivitySchema = new Schema(
     },
     model: {
       type: String,
-      required: true,
+      // required: true,
     },
     route: {
       type: String,
