@@ -1,15 +1,37 @@
 const { getNodeById, getNodeByCode } = require("../integrations/node");
 const { getUserById } = require("../integrations/user");
 const Alert = require("../models/Alert");
+const moment = require("moment-timezone");
 
 const getAllAlerts = async (req, res, next) => {
   try {
-    const { skip, limit, populate = false, ...where } = req.query;
+    moment.tz.setDefault("America/Bogota");
+
+    const {
+      skip,
+      limit,
+      populate = false,
+      fromDate,
+      toDate,
+      ...where
+    } = req.query;
     where.deletedAt = null;
 
     // Convertir skip y limit a números para asegurar su correcto funcionamiento
     const skipValue = parseInt(skip) || 0;
     const limitValue = parseInt(limit) || 10;
+
+    if (toDate || fromDate) {
+      where.createdAt = {};
+
+      if (fromDate) {
+        where.createdAt["$gte"] = moment(fromDate).toDate();
+      }
+
+      if (toDate) {
+        where.createdAt["$lte"] = moment(toDate).toDate();
+      }
+    }
 
     const totalCount = await Alert.countDocuments(where);
     let alerts = await Alert.find(where)
@@ -45,7 +67,7 @@ const getAllAlerts = async (req, res, next) => {
     }
 
     return res.status(200).json({
-      customMessage: "Alertas obtenidos exitosamente",
+      customMessage: "Alertas obtenidas exitosamente",
       totalCount,
       results: alerts,
     });
