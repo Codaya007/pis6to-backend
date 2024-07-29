@@ -16,9 +16,9 @@ kubectl apply -f ./authentication-module/k8s/deployment.yaml
 kubectl apply -f ./authentication-module/k8s/service.yaml
 
 # alerts-and-notifications-module
-docker build -t alertsandnotifications:5.0 ./alerts-and-notifications-module/
-docker tag alertsandnotifications:5.0 pis6toregistrygroup.azurecr.io/alertsandnotifications:5.0
-docker push pis6toregistrygroup.azurecr.io/alertsandnotifications:5.0
+docker build -t alertsandnotifications:8.0 ./alerts-and-notifications-module/
+docker tag alertsandnotifications:8.0 pis6toregistrygroup.azurecr.io/alertsandnotifications:8.0
+docker push pis6toregistrygroup.azurecr.io/alertsandnotifications:8.0
 
 kubectl apply -f ./alerts-and-notifications-module/k8s/deployment.yaml
 kubectl apply -f ./alerts-and-notifications-module/k8s/service.yaml

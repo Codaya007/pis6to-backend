@@ -193,10 +193,16 @@ const createAlert = async (req, res, next) => {
     if (alert.node) {
       const nodeDB = await getNodeById(alert.node);
 
+      alert.node = nodeDB;
+
       //! Apagar alerta, enviar actualización por socket
       const io = req.app.get("socketio"); // Obtener la instancia de io desde req.app
       io.emit(`alertNode${nodeDB.code}`, { emitSound });
       io.emit(`alertNode`, { emitSound });
+      io.emit(`alerts`, { alert, node: nodeDB });
+      io.emit(`alertsMonitoginStation${nodeDB.monitoringStation?._id}`, {
+        alert,
+      });
     }
 
     return res.status(201).json({
