@@ -40,7 +40,7 @@ alertRouter.get("/node-status/:nodeCode", alertController.getNodeAlertState);
 
 alertRouter.post(
   "/",
-  isLoggedIn,
+  // isLoggedIn,
   validateRequestBody(createAlertSchema),
   alertController.createAlert
 );

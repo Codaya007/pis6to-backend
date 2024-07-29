@@ -49,7 +49,7 @@ monitoringstationRouter.post(
 
 monitoringstationRouter.put(
   "/:id",
-  isLoggedIn,
+  // isLoggedIn,
   validateRequestBody(editMonitoringStationSchema),
   monitoringstationController.updateMonitoringStation
 );

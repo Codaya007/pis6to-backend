@@ -203,6 +203,12 @@ const createAlert = async (req, res, next) => {
       io.emit(`alertsMonitoginStation${nodeDB.monitoringStation?._id}`, {
         alert,
       });
+
+      if (alert.type !== "FallaNodo") {
+        io.emit(`monitoringStationState${nodeDB.monitoringStation?._id}`, {
+          status: nodeDB?.monitoringStation?.environmentalState || "Malo",
+        });
+      }
     }
 
     return res.status(201).json({

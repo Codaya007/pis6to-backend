@@ -48,6 +48,22 @@ const getNodeById = async (id = "", bearerToken) => {
   }
 };
 
+const updateNodeById = async (id = "", body) => {
+  try {
+    const url = `${API_BASEURL}/ms2/nodes/${id}`;
+
+    const { data } = await axios.put(url, body);
+
+    if (!data.results) return false;
+
+    return true;
+  } catch (error) {
+    console.log(error);
+
+    return false;
+  }
+};
+
 const getAllActiveNodes = async (bearerToken, monitoringStation) => {
   try {
     let url = `${API_BASEURL}/ms2/nodes?status=${ACTIVE_STATUS_NAME}&limit=100`;
@@ -76,4 +92,5 @@ module.exports = {
   getNodeByCode,
   getNodeById,
   getAllActiveNodes,
+  updateNodeById,
 };

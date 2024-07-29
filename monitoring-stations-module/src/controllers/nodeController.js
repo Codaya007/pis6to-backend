@@ -5,49 +5,49 @@ const getAllNodes = async (req, res, next) => {
   try {
     const { skip = 1, limit = 10, ...where } = req.query;
     where.deletedAt = null;
+
     const skipValue = parseInt(skip) || 0;
     const limitValue = parseInt(limit) || 10;
-    // const totalCount = await Node.countDocuments(where);
-    const data = await Node.find(where)
+
+    const totalCount = await Node.countDocuments(where);
+    const nodes = await Node.find(where)
       .skip(skipValue)
       .limit(limitValue)
       .sort({ createdAt: -1 });
-    // console.log(data);
-    res.status(200);
-    // console.log('NODESSS');
-    res.json({
-      msg: "OK",
-      // totalCount,
-      data,
+
+    return res.status(200).json({
+      customMessage: "Nodos obtenidos exitosamente",
+      totalCount,
+      results: nodes,
     });
   } catch (error) {
     res.status(400);
     res.json({ msg: "Algo salió mal", error: error.message });
   }
-  return res;
-  //   try {
-  //   const { skip, limit, ...where } = req.query;
-  //   where.deletedAt = null;
-
-  //   // Convertir skip y limit a números para asegurar su correcto funcionamiento
-  //   const skipValue = parseInt(skip) || 0;
-  //   const limitValue = parseInt(limit) || 10;
-
-  //   const totalCount = await Node.countDocuments(where);
-  //   const nodes = await Node.find(where)
-  //     .populate("monitoringStation")
-  //     .skip(skipValue)
-  //     .limit(limitValue);
-
-  //   return res.status(200).json({
-  //     customMessage: "Nodos obtenidos exitosamente",
-  //     totalCount,
-  //     results: nodes,
-  //   });
-  // } catch (error) {
-  //   next(error);
-  // }
 };
+
+//   try {
+//   const { skip, limit, ...where } = req.query;
+//   where.deletedAt = null;
+
+//   // Convertir skip y limit a números para asegurar su correcto funcionamiento
+//   const skipValue = parseInt(skip) || 0;
+//   const limitValue = parseInt(limit) || 10;
+
+//   const totalCount = await Node.countDocuments(where);
+//   const nodes = await Node.find(where)
+//     .populate("monitoringStation")
+//     .skip(skipValue)
+//     .limit(limitValue);
+
+//   return res.status(200).json({
+//     customMessage: "Nodos obtenidos exitosamente",
+//     totalCount,
+//     results: nodes,
+//   });
+// } catch (error) {
+//   next(error);
+// }
 
 const getNodeByParams = async (req, res, next) => {
   const { id, code } = req.params;

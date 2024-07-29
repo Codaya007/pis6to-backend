@@ -50,7 +50,7 @@ nodeRouter.post(
 
 nodeRouter.put(
   "/:id",
-  isLoggedIn,
+  // isLoggedIn,
   validateRequestBody(editNodeSchema),
   nodeController.updateNode
 );

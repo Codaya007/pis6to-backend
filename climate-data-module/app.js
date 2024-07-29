@@ -10,6 +10,8 @@ var indexRouter = require("./src/routes/index");
 const notFound = require("./src/middlewares/notFound");
 const errorHandler = require("./src/middlewares/errorHandler");
 
+require("./src/cronjobs/cronTasks.js");
+
 var app = express();
 
 app.use(cors());

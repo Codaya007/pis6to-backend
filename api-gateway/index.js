@@ -40,8 +40,12 @@ const publicRoutes = [
     methods: ["GET"],
   },
   {
+    path: "/ms2/monitoring-stations/*",
+    methods: ["PUT"],
+  },
+  {
     path: "/ms3/climate-datas/*",
-    methods: ["GET"],
+    methods: ["GET", "PUT"],
   },
   {
     path: "/ms3/climate-datas",
@@ -53,7 +57,7 @@ const publicRoutes = [
   },
   {
     path: "/ms2/nodes/*",
-    methods: ["GET"],
+    methods: ["GET", "PUT"],
   },
   {
     path: "/socket.io/*",
@@ -62,6 +66,18 @@ const publicRoutes = [
   {
     path: "/ms4/alerts/node-status/*",
     methods: ["GET"],
+  },
+  {
+    path: "/ms2/normal-limits-config/one",
+    methods: ["GET"],
+  },
+  {
+    path: "/ms2/limits-config/one",
+    methods: ["GET"],
+  },
+  {
+    path: "/ms4/alerts",
+    methods: ["POST"],
   },
   // { path: "/ms8/media/*", methods: ["POST"] },
   // { path: "/ms4/*", methods: ["POST", "GET", "PUT", "DELETE"] },

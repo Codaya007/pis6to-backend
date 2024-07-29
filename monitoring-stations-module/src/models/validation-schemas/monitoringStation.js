@@ -65,6 +65,9 @@ const editMonitoringStationSchema = Joi.object({
   reference: Joi.string().optional().messages({
     "*": "El campo 'referencia' debe ser una cadena",
   }),
+  environmentalState: Joi.string().optional().messages({
+    "*": "El campo 'environmentalState' debe ser una cadena de texto",
+  }),
   photos: Joi.array().items(Joi.string()).optional().allow(null).messages({
     "*": "El campo 'fotos' debe ser una lista de cadenas o nulo",
   }),

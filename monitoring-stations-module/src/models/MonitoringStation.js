@@ -32,6 +32,11 @@ const monitoringStationSchema = new Schema(
       isIn: [ACTIVE_STATUS_NAME, INACTIVE_STATUS_NAME],
       default: ACTIVE_STATUS_NAME,
     },
+    environmentalState: {
+      type: String,
+      isIn: ["Saludable", "Malo", "Peligroso"],
+      default: null,
+    },
     nomenclature: {
       type: {
         campus: {
