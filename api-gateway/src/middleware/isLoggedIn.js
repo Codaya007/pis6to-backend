@@ -5,9 +5,9 @@ const validateToken = require("../helpers/validateToken");
 module.exports = async (req, res, next) => {
   try {
     const bearerToken = req.header("Authorization");
-    console.log('bearer tokenn ');
-    console.log(bearerToken);
-    if (!bearerToken) { 
+    // console.log("bearer tokenn ");
+    // console.log(bearerToken);
+    if (!bearerToken) {
       return res.status(401).json({
         customMessage: "Sin autenticación presente",
       });

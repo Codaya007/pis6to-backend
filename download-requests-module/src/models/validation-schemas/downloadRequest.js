@@ -16,9 +16,13 @@ const createDownloadRequestSchema = Joi.object({
     .required()
     .messages({ "*": "Se debe ingresar el tipo de descarga" }),
   filterDate: Joi.object({
-    from: Joi.date().iso().allow(null),
-    to: Joi.date().iso().allow(null),
-  }).messages({ "*": "Fechas no validas, son requeridas" }),
+    from: Joi.string()
+      .pattern(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/)
+      .allow(null),
+    to: Joi.string()
+      .pattern(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/)
+      .allow(null),
+  }).messages({ "*": "Fechas no validas, deben ser en formato YYYY-MM-DD" }),
 });
 
 const updateDownloadRequestSchema = Joi.object({

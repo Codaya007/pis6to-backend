@@ -1,5 +1,8 @@
 const { PENDING_DOWNLOAD_REQUEST_STATUS } = require("../constants");
-const { getResearcherById } = require("../integrations/researcher");
+const {
+  getResearcherById,
+  getAllResearchers,
+} = require("../integrations/researcher");
 const DownloadRequest = require("../models/DownloadRequest");
 
 // Obtener todas las solicitudes de descarga con filtro por tipo de solicitud
@@ -147,7 +150,21 @@ const createDownloadRequest = async (req, res, next) => {
 const getDownloadRequestsByUser = async (req, res, next) => {
   try {
     const user = req.user.id;
-    const downloadRequests = await DownloadRequest.find({ user }).sort({
+    // Debo obtener el researcherID
+    const users = await getAllResearchers(req.header("Authorization"), {
+      user,
+    });
+    const researcherDB = users[0];
+
+    if (!researcherDB) {
+      return res.status(404).json({
+        customMessage: "Investigador no encontrado",
+      });
+    }
+
+    const downloadRequests = await DownloadRequest.find({
+      researcher: researcherDB?._id,
+    }).sort({
       createdAt: -1,
     });
 

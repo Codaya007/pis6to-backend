@@ -24,6 +24,31 @@ const getResearcherById = async (id = "", bearerToken) => {
   }
 };
 
+const getAllResearchers = async (bearerToken, filters = {}) => {
+  try {
+    let url = `${API_BASEURL}/ms1/researchers?limit=10`;
+
+    for (const [key, value] of Object.entries(filters)) {
+      url += `&${key}=${encodeURIComponent(value)}`;
+    }
+
+    const config = {
+      headers: { Authorization: bearerToken },
+    };
+
+    const { data } = await axios.get(url, config);
+
+    if (!data.results) return [];
+
+    return data.results;
+  } catch (error) {
+    console.log(error);
+
+    return [];
+  }
+};
+
 module.exports = {
   getResearcherById,
+  getAllResearchers,
 };

@@ -40,6 +40,13 @@ const DownloadRequestSchema = new Schema(
       default: false,
       required: true,
     },
+    generatedFiles: {
+      type: {
+        xlsx: String,
+        json: String,
+      },
+      default: { xlsx: null, json: null },
+    },
     // En este campo se guarda el id del usuario administrador que acepto o rechazo la solicitud
     updatedBy: {
       type: Schema.Types.ObjectId,
