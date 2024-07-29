@@ -14,9 +14,12 @@ spec:
     spec:
       containers:
         - name: authentication
-          image: pis6toregistrygroup.azurecr.io/authentication:3.0
+          image: pis6toregistrygroup.azurecr.io/authentication:5.0
           imagePullPolicy: Always
           ports:
             - containerPort: 4001
+          env:
+            - name: API_BASEURL
+              value: "http://api-gateway:80"
       imagePullSecrets:
         - name: my-acr-secret

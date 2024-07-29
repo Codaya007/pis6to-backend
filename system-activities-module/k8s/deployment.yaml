@@ -14,9 +14,12 @@ spec:
     spec:
       containers:
         - name: systemactivities
-          image: pis6toregistrygroup.azurecr.io/systemactivities:3.0
+          image: pis6toregistrygroup.azurecr.io/systemactivities:5.0
           imagePullPolicy: Always
           ports:
             - containerPort: 4006
+          env:
+            - name: API_BASEURL
+              value: "http://api-gateway:80"
       imagePullSecrets:
         - name: my-acr-secret

@@ -3,9 +3,12 @@ kind: Ingress
 metadata:
   name: api-gateway
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/enable-websockets: "true" # Habilita WebSockets
+    nginx.ingress.kubernetes.io/rewrite-target: / # Configuración para reescritura del path si es necesario
+    nginx.ingress.kubernetes.io/websocket-services: "climatedata"
 spec:
   ingressClassName: api-pis6to-dns-dl73e6qv.hcp.eastus.azmk8s.io
+  # ingressClassName: nginx # Usa el nombre del IngressClass correcto
   rules:
     - host: api-pis6to-dns-dl73e6qv.hcp.eastus.azmk8s.io
       http:
@@ -39,6 +42,14 @@ spec:
                 name: climatedata
                 port:
                   number: 80
+          # Este además del puerto 80 con servidor web, tiene el puerto 81 con el servidor de sockets
+          - path: /climatedataws
+            pathType: Prefix
+            backend:
+              service:
+                name: climatedata
+                port:
+                  number: 5000
           - path: /downloadrequests
             pathType: Prefix
             backend:

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: pis6toregistrygroup.azurecr.io/api-gateway:3.0
+          image: pis6toregistrygroup.azurecr.io/api-gateway:5.0
           imagePullPolicy: Always
           ports:
             - containerPort: 4000
@@ -35,5 +35,7 @@ spec:
               value: "http://sockets:80"
             - name: MEDIA_SERVICE_URL
               value: "http://media:80"
+            - name: API_BASEURL
+              value: "http://api-gateway:80"
       imagePullSecrets:
         - name: my-acr-secret

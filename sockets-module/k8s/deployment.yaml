@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: sockets
-          image: pis6toregistrygroup.azurecr.io/sockets:3.0
+          image: pis6toregistrygroup.azurecr.io/sockets:5.0
           imagePullPolicy: Always
           ports:
             - containerPort: 4007
