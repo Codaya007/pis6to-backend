@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: downloadrequests
-          image: pis6toregistrygroup.azurecr.io/downloadrequests:5.0
+          image: pis6toregistrygroup.azurecr.io/downloadrequests:10.0
           imagePullPolicy: Always
           ports:
             - containerPort: 4005

@@ -22,6 +22,17 @@ downloadRequestRouter.get(
 );
 
 /**
+ * @route GET /user
+ * @desc Obtener solicitudes de descarga del usuario logueado
+ * @access Private
+ */
+downloadRequestRouter.get(
+  "/user",
+  isResearcher,
+  downloadRequestController.getDownloadRequestsByUser
+);
+
+/**
  * @route GET /:id
  * @desc Obtener solicitud de descarga por id
  * @access Public
@@ -54,17 +65,6 @@ downloadRequestRouter.put(
   isAdmin,
   validateRequestBody(updateDownloadRequestSchema),
   downloadRequestController.updateDownloadRequestStatus
-);
-
-/**
- * @route GET /user
- * @desc Obtener solicitudes de descarga del usuario logueado
- * @access Private
- */
-downloadRequestRouter.get(
-  "/user",
-  isResearcher,
-  downloadRequestController.getDownloadRequestsByUser
 );
 
 module.exports = downloadRequestRouter;

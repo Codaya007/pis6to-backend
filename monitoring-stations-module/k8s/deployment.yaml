@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: monitoringstations
-          image: pis6toregistrygroup.azurecr.io/monitoringstations:5.0
+          image: pis6toregistrygroup.azurecr.io/monitoringstations:10.0
           imagePullPolicy: Always
           ports:
             - containerPort: 4002

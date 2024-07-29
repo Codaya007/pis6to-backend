@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: media
-          image: pis6toregistrygroup.azurecr.io/media:5.0
+          image: pis6toregistrygroup.azurecr.io/media:10.0
           imagePullPolicy: Always
           ports:
             - containerPort: 4008

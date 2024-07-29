@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: authentication
-          image: pis6toregistrygroup.azurecr.io/authentication:5.0
+          image: pis6toregistrygroup.azurecr.io/authentication:10.0
           imagePullPolicy: Always
           ports:
             - containerPort: 4001

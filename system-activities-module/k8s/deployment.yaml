@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: systemactivities
-          image: pis6toregistrygroup.azurecr.io/systemactivities:5.0
+          image: pis6toregistrygroup.azurecr.io/systemactivities:10.0
           imagePullPolicy: Always
           ports:
             - containerPort: 4006
